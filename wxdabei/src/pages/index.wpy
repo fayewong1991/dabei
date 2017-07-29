@@ -1,0 +1,89 @@
+<template>
+  <view class="index-container">
+    <search :recommend-list="searchRecommendData"></search>
+    <view class="index-tabs">
+      <block wx:if="{{indexTabList}}">
+        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" @tab="selectTab" :style="{width: tabItemWidth}">
+          <text class="index-tabs-item-title">{{tabItem.typeTitle}}</text>
+          <text wx:if="{{tabIndex < (indexTabList.length - 1)}}" class="m-icon m-icon-arrow-down"></text>
+        </view>
+      </block>
+    </view>
+    <imgwall :wall-image-lines="imgWallData"></imgwall>
+  </view>  
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import searchBar from '../components/searchBar.wpy'
+  import imgWall from '../components/indexwall.wpy'
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '搭呗'
+    }
+    components = {
+      search: searchBar,
+      imgwall: imgWall
+    }
+
+    data = {
+      imgWallData: [],
+      indexTabList: [{
+        typeTitle: '场景',
+        typeData: []
+      }, {
+        typeTitle: '身材',
+        typeData: []
+      }, {
+        typeTitle: '风格',
+        typeData: []
+      }, {
+        typeTitle: 'For Me',
+        typeData: []
+      }]
+    }  
+    computed = {
+      tabItemWidth () {
+        return 1 / (this.indexTabList.length) * 100 + '%'
+      }
+    }
+
+    methods = {
+      onLoad () {
+        let self = this
+        this.$parent.getUserInfo(function (userInfo) {
+          if (userInfo) {
+            self.userInfo = userInfo
+          }
+        })
+      },
+      selectTab (event) {
+        let currentTabIndex = event.currentTarget.dataset.tabIndex
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+.index-container{
+  width: 100%;
+  padding-left: 23rpx;
+  padding-right: 23rpx;
+}
+.index-tabs{
+  width: 100%;
+  height: 90rpx;
+}
+.index-tabs-item{
+  display: inline-block;
+  height: 100%;
+  vertical-align: top;
+  line-height: 1;
+  text-align: center;
+  font-size: 27rpx;
+  color: #333;
+}
+.index-tabs-item-title{
+  margin-right: 10rpx;
+} 
+</style>

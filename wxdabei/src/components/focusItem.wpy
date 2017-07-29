@@ -1,0 +1,40 @@
+<template>
+  <view class="focus-item">
+    <view class="focus-item-intro">
+      <image mode="aspectFill" src="{{avatar}}" class="focus-item-intro-avatar"></image>
+      <view class="focus-item-intro-info">
+        <view class="focus-item-intro-info-name">{{name}}</view>
+        <view class="focus-item-intro-info-title">{{title}}</view>  
+      </view>
+      <text @tap="addFocus" class="focus-item-intro-button">{{focusStatus}}</text> 
+    </view>
+    <focusitemimgs :imglist="imglist"></focusitemimgs>  
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import horiImgList from './horiImgList.wpy'
+export default class focusItem extends wepy.component {
+  props = {
+    avatar: {},
+    name: {},
+    title: {},
+    imglist: {}
+  }
+  data = {
+    focusStatus: '＋关注'
+  }
+  components = {
+    focusitemimgs: horiImgList
+  }
+  methods = {
+    addFocus () {
+      this.focusStatus = '已关注'
+    }
+  }
+}
+</script>
+
+<style lang="less">
+</style>

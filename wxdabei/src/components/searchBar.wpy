@@ -1,0 +1,136 @@
+<template>
+  <view class="search-container">
+    <view :class="{searchText: true, searchTextFocus: inputHasFocus}">
+      <text class="search-icon m-icon m-icon-search-mini"></text>
+      <text class="search-placeholder">{{searchPlaceholder}}</text>
+    </view>
+    <view class="search-input">
+      <input type="text" :class="{searchTextInput: true, searchTextFocus: inputHasFocus}" @focus="searchFocus" @blur="searchBlur"/>
+      <text class="search-input-confirm" wx:if="{{inputHasFocus}}">搜索</text>
+    </view>
+    <view class="search-recommend">
+      <text class="search-recommend-clear" @tap="clearRecommendData">清除</text>  
+      <block wx:if="{{recommendList}}"> 
+        <view class="search-recommend-item" wx:for="{{recommendList}}" wx:for-item="recommendItem">
+          <view class="search-recommend-item-title">{{recommendItem.title}}</view>
+          <view class="search-recommend-item-content">
+            <block wx:if="{{recommendItem.contentList}}">
+              <text wx:for="{{recommendItem.contentList}}" wx:for-item="contentItem" wx:for-index="contentIndex" :class="{ searchRecommendContentItem: true, searchRecommendContentItemFocus: contentIndex < 2}">{{contentItem}}</text>  
+            </block>
+            <view wx:if="{{!recommendItem.contentList}}" class="search-norecommend-tip">暂无搜索历史</view>  
+          </view>  
+        </view>
+      </block>  
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class searchBar extends wepy.component {
+  props = {
+    recommendList: {}
+  }
+  data = {
+    searchPlaceholder: '搜索',
+    inputHasFocus: false
+  }
+  methods = {
+    searchFocus () {
+      this.inputHasFocus = true
+    },
+    searchBlur (event) {
+      if (event.target.value === '') {
+        this.inputHasFocus = false
+      }
+    },
+    clearRecommendData () {
+      this.recommendList = null
+    }
+  }
+}
+</script>
+
+<style>
+.search-container{
+  width: 100%;
+  height: 65rpx;
+  position: relative;  
+}
+.searchText{
+  position: absolute;
+  left: 330rpx;
+  top: 15rpx;
+  font-size: 27rpx;
+  color: #8E8E93; 
+}
+.search-icon{
+  margin-right: 10rpx;  
+}
+.searchTextFocus{
+  left: 25rpx;  
+}
+.search-input{
+  width: 100%;  
+}
+.searchTextInput{
+  display: inline-block;  
+  width: 100%;
+  height: 100%;
+  background-color: #F4F4F4;
+  font-size: 27rpx;
+  color: #8E8E93;  
+}
+.searchTextFocus{
+  width: 561rpx;
+  margin-right: 15rpx;  
+}
+.search-input-confirm{
+  display: inline-block;
+  height: 100%;  
+  width: auto;
+  text-align: center;
+  background-color: #FF7238;
+  color: #fff;
+  font-size: 28rpx;
+  line-height: 1;  
+}
+.search-recommend{
+  width: 100%;
+  margin-top: 33rpx;
+  position: relative;  
+}
+.search-recommend-clear{
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #999;
+}
+.search-recommend-item{
+  width: 100%;
+  margin-bottom: 40rpx;  
+}
+.search-recommend-item-title{
+  width: 100%;
+  color: #333;
+  font-size: 27rpx;
+  margin-bottom: 25rpx;  
+}
+.search-norecommend-tip{
+  font-size: 18rpx;
+  color: #999;   
+}
+.searchRecommendContentItem{
+  vertical-align: top;  
+  display: inline-block;
+  height: 56rpx;
+  line-height: 56rpx;
+  padding-left: 17rpx;
+  padding-right: 17rpx;
+  color: #333;
+  margin-right: 16rpx; 
+}
+.searchRecommendContentItemFocus{
+  color: #FF713B; 
+}
+</style>

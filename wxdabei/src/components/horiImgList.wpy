@@ -1,0 +1,36 @@
+<template>
+  <view class="horizontal-imgList">
+    <scroll-view scroll-x style="width:100%">
+      <block wx:for="{{imglist}}">
+        <image mode="aspectFill" class="horizontal-imgList-item" wx:for="{{imglist}}" wx:for-item="imgItem" @tap="imgClick" data-imglink="{{imgItem.detailUrl}}" src="{{imgItem.imgUrl}}"></image>
+      </block>  
+    </scroll-view>  
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import {goto} from '../utils.js'
+export default class horiImgList extends wepy.component {
+  props = {
+    imglist: {}
+  }
+  methods = {
+    imgClick (event) {
+      let theImgLink = event.target.dataset.imglink
+      goto(theImgLink)
+    }
+  }
+}
+</script>
+
+<style lang="less">
+.horizontal-imgList{
+  width: 100%;
+  height: 100rpx;  
+}
+.horizontal-imgList-item{
+  height: 100%;
+  margin-right: 10rpx;
+}
+</style>

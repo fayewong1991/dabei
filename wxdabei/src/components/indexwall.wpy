@@ -1,0 +1,40 @@
+<style lang="less">
+.index-wall{
+  padding-top: 22rpx; 
+}
+.index-wall-line{
+  margin-bottom: 22rpx;  
+}
+.indexWallLineImg {
+  margin-right: 24rpx;  
+}
+.indexWallLineLastimg{
+  margin-right: 0;  
+}
+</style>
+
+<template>
+  <view class="index-wall">
+    <block wx:if="{{wallImageLines}}">
+      <view class="index-wall-line" wx:for="{{wallImageLines}}" wx:for-item="lineItem">
+        <image mode="aspectFill" wx:for="{{lineItem}}" wx:for-item="lineItemImg" wx:for-index="lineItemIndex" :class="{indexWallLineImg: true, indexWallLineLastimg: lineItemIndex === (lineItem.length - 1)}" src="{{lineItemImg.imgUrl}}" @tap="imgClick" data-imglink="{{lineItemImg.detailUrl}}"></image>
+      </view>
+    </block>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import {goto} from '../utils.js'
+export default class indexwall extends wepy.component {
+  props = {
+    wallImageLines: {}
+  }
+  methods = {
+    imgClick (event) {
+      let theImgLink = event.target.dataset.imglink
+      goto(theImgLink)
+    }
+  }
+}
+<script>
