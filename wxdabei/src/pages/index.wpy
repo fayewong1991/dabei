@@ -3,7 +3,7 @@
     <search :recommend-list="searchRecommendData"></search>
     <view class="index-tabs">
       <block wx:if="{{indexTabList}}">
-        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" @tab="selectTab" :style="{width: tabItemWidth}">
+        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" @tab="selectTab" style="width: {{tabItemWidth}}">
           <text class="index-tabs-item-title">{{tabItem.typeTitle}}</text>
           <text wx:if="{{tabIndex < (indexTabList.length - 1)}}" class="m-icon m-icon-arrow-down"></text>
         </view>
@@ -15,8 +15,8 @@
 
 <script>
   import wepy from 'wepy'
-  import searchBar from '../components/searchBar.wpy'
-  import imgWall from '../components/indexwall.wpy'
+  import searchBar from '../components/searchBar'
+  import imgWall from '../components/indexwall'
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: '搭呗'
@@ -41,7 +41,7 @@
         typeTitle: 'For Me',
         typeData: []
       }]
-    }  
+    }
     computed = {
       tabItemWidth () {
         return 1 / (this.indexTabList.length) * 100 + '%'
@@ -49,16 +49,9 @@
     }
 
     methods = {
-      onLoad () {
-        let self = this
-        this.$parent.getUserInfo(function (userInfo) {
-          if (userInfo) {
-            self.userInfo = userInfo
-          }
-        })
-      },
       selectTab (event) {
         let currentTabIndex = event.currentTarget.dataset.tabIndex
+        console.log(currentTabIndex)
       }
     }
   }
