@@ -1,5 +1,5 @@
 <template>
-  <view class="index-container">
+  <view class="index-container page-container">
     <search :recommend-list="searchRecommendData"></search>
     <view class="index-tabs">
       <block wx:if="{{indexTabList}}">

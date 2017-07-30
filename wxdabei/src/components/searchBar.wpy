@@ -1,21 +1,21 @@
 <template>
   <view class="search-container">
-    <view :class="{searchText: true, searchTextFocus: inputHasFocus}">
+    <view class="search-text {{inputHasFocus ? 'search-text-focus' : ''}}">
       <text class="search-icon m-icon m-icon-search-mini"></text>
       <text class="search-placeholder">{{searchPlaceholder}}</text>
     </view>
     <view class="search-input">
-      <input type="text" :class="{searchTextInput: true, searchTextFocus: inputHasFocus}" @focus="searchFocus" @blur="searchBlur"/>
+      <input type="text" class="search-text-input {{inputHasFocus ? 'search-text-input-focus' : ''}}" @focus="searchFocus" @blur="searchBlur"/>
       <text class="search-input-confirm" wx:if="{{inputHasFocus}}">搜索</text>
     </view>
     <view class="search-recommend">
-      <text class="search-recommend-clear" @tap="clearRecommendData">清除</text>  
+      <text wx:if="{{recommendList}}" class="search-recommend-clear" @tap="clearRecommendData">清除</text>  
       <block wx:if="{{recommendList}}"> 
         <view class="search-recommend-item" wx:for="{{recommendList}}" wx:for-item="recommendItem">
           <view class="search-recommend-item-title">{{recommendItem.title}}</view>
           <view class="search-recommend-item-content">
             <block wx:if="{{recommendItem.contentList}}">
-              <text wx:for="{{recommendItem.contentList}}" wx:for-item="contentItem" wx:for-index="contentIndex" :class="{ searchRecommendContentItem: true, searchRecommendContentItemFocus: contentIndex < 2}">{{contentItem}}</text>  
+              <text wx:for="{{recommendItem.contentList}}" wx:for-item="contentItem" wx:for-index="contentIndex" class="search-recommend-content-item {{contentIndex < 2 ? 'search-recommend-content-item-focus' : ''}}">{{contentItem}}</text>  
             </block>
             <view wx:if="{{!recommendItem.contentList}}" class="search-norecommend-tip">暂无搜索历史</view>  
           </view>  
@@ -57,23 +57,28 @@ export default class searchBar extends wepy.component {
   height: 65rpx;
   position: relative;  
 }
-.searchText{
+.search-text{
   position: absolute;
   left: 330rpx;
   top: 15rpx;
   font-size: 27rpx;
-  color: #8E8E93; 
+  color: #8E8E93;
+  z-index: 10; 
+}
+.search-icon{
+  display: inline-block;
+  vertical-align: top;  
 }
 .search-icon{
   margin-right: 10rpx;  
 }
-.searchTextFocus{
+.search-text-focus{
   left: 25rpx;  
 }
 .search-input{
   width: 100%;  
 }
-.searchTextInput{
+.search-text-input{
   display: inline-block;  
   width: 100%;
   height: 100%;
@@ -81,7 +86,7 @@ export default class searchBar extends wepy.component {
   font-size: 27rpx;
   color: #8E8E93;  
 }
-.searchTextFocus{
+.search-text-input-focus{
   width: 561rpx;
   margin-right: 15rpx;  
 }
@@ -120,7 +125,7 @@ export default class searchBar extends wepy.component {
   font-size: 18rpx;
   color: #999;   
 }
-.searchRecommendContentItem{
+.search-recommend-content-item{
   vertical-align: top;  
   display: inline-block;
   height: 56rpx;
@@ -130,7 +135,7 @@ export default class searchBar extends wepy.component {
   color: #333;
   margin-right: 16rpx; 
 }
-.searchRecommendContentItemFocus{
+.search-recommend-content-item-focus{
   color: #FF713B; 
 }
 </style>
