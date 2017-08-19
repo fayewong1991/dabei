@@ -4,7 +4,7 @@
   <view class="index-wall">
     <block  wx:if="{{$albumwall$wallimagelines}}">
       <view class="index-wall-line" wx:for="{{$albumwall$wallimagelines}}" wx:for-item="lineItem">
-        <view class="index-wall-line-imgItemView {{$albumwall$lineItemIndex === (lineItem.length - 1) ? 'index-wall-line-lastimg' : ''}}" wx:for="{{lineItem}}" wx:for-item="lineItemImg" wx:for-index="lineItemIndex" style="width:{{$albumwall$imgunitwd}};height:{{$albumwall$imgunithg}};">
+        <view wx:for="{{lineItem}}" wx:for-item="lineItemImg" wx:for-index="lineItemIndex" class="index-wall-line-imgItemView {{lineItemIndex === (lineItem.length - 1) ? 'index-wall-line-lastimg' : ''}}" style="width:{{$albumwall$imgunitwd}};height:{{$albumwall$imgunithg}};">
           <image mode="aspectFill" class="index-wall-line-img" src="{{lineItemImg.imgUrl}}" bindtap="$albumwall$imgClick" data-imglink="{{lineItemImg.detailUrl || $albumwall$lineImg.imgUrl}}"/>
           <view class="index-wall-line-imglike" wx:if="{{$albumwall$isneedshowlike}}">
             <text class="m-icon m-icon-star index-wall-line-imglike-star" bindtap="$albumwall$addLike" data-belong-item="{{lineItemImg}}"/>

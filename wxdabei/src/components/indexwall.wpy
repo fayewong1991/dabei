@@ -8,7 +8,8 @@
 .index-wall-line-imgItemView{
   width: 338rpx;
   height: 606rpx;
-  margin-right: 24rpx;
+  margin-right: 30rpx;
+  display: inline-block;
   position: relative;
 }
 .index-wall-line-img {
@@ -32,6 +33,8 @@
   font-size: 26rpx;
   margin-right: 9rpx;
   line-height: 52rpx;
+  margin-left: 20rpx;
+  color: #ff3e08;
 }
 .index-wall-line-imglike-number{
   font-size: 19rpx;
@@ -44,7 +47,7 @@
   <view class="index-wall">
     <block wx:if="{{wallimagelines}}">
       <view class="index-wall-line" wx:for="{{wallimagelines}}" wx:for-item="lineItem">
-        <view class="index-wall-line-imgItemView {{lineItemIndex === (lineItem.length - 1) ? 'index-wall-line-lastimg' : ''}}" wx:for="{{lineItem}}" wx:for-item="lineItemImg" wx:for-index="lineItemIndex" style="width:{{imgunitwd}};height:{{imgunithg}};">
+        <view wx:for="{{lineItem}}" wx:for-item="lineItemImg" wx:for-index="lineItemIndex" class="index-wall-line-imgItemView {{lineItemIndex === (lineItem.length - 1) ? 'index-wall-line-lastimg' : ''}}" style="width:{{imgunitwd}};height:{{imgunithg}};">
           <image mode="aspectFill" class="index-wall-line-img" src="{{lineItemImg.imgUrl}}" @tap="imgClick" data-imglink="{{lineItemImg.detailUrl || lineImg.imgUrl}}"></image>
           <view class="index-wall-line-imglike" wx:if="{{isneedshowlike}}">
             <text class="m-icon m-icon-star index-wall-line-imglike-star" @tap="addLike" data-belong-item="{{lineItemImg}}"></text>
