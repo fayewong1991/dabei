@@ -9,9 +9,9 @@
       <text class="search-input-confirm" wx:if="{{inputHasFocus}}">搜索</text>
     </view>
     <view class="search-recommend">
-      <text wx:if="{{recommendList}}" class="search-recommend-clear" @tap="clearRecommendData">清除</text>  
-      <block wx:if="{{recommendList}}"> 
-        <view class="search-recommend-item" wx:for="{{recommendList}}" wx:for-item="recommendItem">
+      <text wx:if="{{recommendlist}}" class="search-recommend-clear" @tap="clearRecommendData">清除</text>  
+      <block wx:if="{{recommendlist}}"> 
+        <view class="search-recommend-item" wx:for="{{recommendlist}}" wx:for-item="recommendItem">
           <view class="search-recommend-item-title">{{recommendItem.title}}</view>
           <view class="search-recommend-item-content">
             <block wx:if="{{recommendItem.contentList}}">
@@ -29,7 +29,7 @@
 import wepy from 'wepy'
 export default class searchBar extends wepy.component {
   props = {
-    recommendList: {}
+    recommendlist: {}
   }
   data = {
     searchPlaceholder: '搜索',

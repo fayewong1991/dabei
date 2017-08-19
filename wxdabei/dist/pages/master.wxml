@@ -1,46 +1,82 @@
 
-  <view class="index-container">
-    
-  <view class="search-container">
-    <view class="search-text {{$search$inputHasFocus ? 'search-text-focus' : ''}}">
-      <text class="search-icon m-icon m-icon-search-mini"/>
-      <text class="search-placeholder">{{$search$searchPlaceholder}}</text>
+  <view class="index-container page-container">
+    <view class="master-detail-main"> 
+      
+  <view class="focus-one" style="height: {{$masterone$avatarSize}};">
+    <image mode="aspectFill" src="{{$masterone$avatar}}" class="focus-one-intro-avatar" style="width: {{$masterone$avatarSize}}; height: {{$masterone$avatarSize}}; margin-right: {{$masterone$avatarMr}}"/>
+    <view class="focus-one-intro-info">
+      <view class="focus-one-intro-info-name" style="font-size: {{$masterone$nameFontsize}}">{{$masterone$name}}</view>
+      <view  wx:if="{{$masterone$isneedtitle}}" class="focus-one-intro-info-title">{{$masterone$title}}</view>  
     </view>
-    <view class="search-input">
-      <input type="text" class="search-text-input {{$search$inputHasFocus ? 'search-text-input-focus' : ''}}" bindfocus="$search$searchFocus" bindblur="$search$searchBlur"/>
-      <text class="search-input-confirm"  wx:if="{{$search$inputHasFocus}}">搜索</text>
-    </view>
-    <view class="search-recommend">
-      <text  wx:if="{{$search$recommendList}}" class="search-recommend-clear" bindtap="$search$clearRecommendData">清除</text>  
-      <block wx:if="{{$search$recommendList}}"> 
-        <view class="search-recommend-item" wx:for="{{$search$recommendList}}" wx:for-item="recommendItem">
-          <view class="search-recommend-item-title">{{recommendItem.title}}</view>
-          <view class="search-recommend-item-content">
-            <block wx:if="{{recommendItem.contentList}}">
-              <text wx:for="{{recommendItem.contentList}}" wx:for-item="contentItem" wx:for-index="contentIndex" class="search-recommend-content-item {{contentIndex < 2 ? 'search-recommend-content-item-focus' : ''}}">{{contentItem}}</text>  
-            </block>
-            <view wx:if="{{!recommendItem.contentList}}" class="search-norecommend-tip">暂无搜索历史</view>  
-          </view>  
-        </view>
-      </block>  
-    </view>
+    <text  wx:if="{{$masterone$isneedfocus}}" bindtap="$masterone$addFocus" class="focus-item-intro-button">{{$masterone$focusStatus}}</text> 
   </view>
 
-    <view class="index-tabs">
-      <block  wx:if="{{indexTabList}}">
-        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" bindtab="selectTab" style="width: {{tabItemWidth}}">
-          <text class="index-tabs-item-title">{{tabItem.typeTitle}}</text>
-          <text wx:if="{{tabIndex < (indexTabList.length - 1)}}" class="m-icon m-icon-arrow-down"/>
-        </view>
-      </block>
+    </view>
+    <view class="master-detail-status">
+      <text class="master-detail-status-textItem master-detail-status-essay">{{essayNumber}}发帖</text>
+      <text class="master-detail-status-textItem master-detail-status-like">{{likeNumber}}赞</text>
+      <text class="master-detail-status-textItem master-detail-status-comment">{{commentNumber}}评论</text>  
+    </view>
+    <view class="master-detail-imglibs">
+      
+  <view class="horizontal-imgList" style="height: {{$imghorilist$horiimgitemhg}}">
+    <scroll-view scroll-x style="width:100%">
+      <block  wx:for="{{$imghorilist$imglist}}">
+        <image mode="aspectFill" class="horizontal-imgList-item" style="width: {{$imghorilist$horiimgitemwd}}" wx:for="{{$imghorilist$imglist}}" wx:for-item="imgItem" bindtap="$imghorilist$imgClick" data-imglink="{{imgItem.detailUrl}}" src="{{imgItem.imgUrl}}"/>
+      </block>  
+    </scroll-view>  
+  </view>
+  
+    </view>  
+    <block  wx:if="{{masterStatusList}}">
+      <view wx:for="{{masterStatusList}}" wx:for-item="masterStatusItem">
+        
+  <view class="newstate">
+    
+  <view class="focus-one" style="height: {{$statusitem$focusone$avatarSize}};">
+    <image mode="aspectFill" src="{{$statusitem$focusone$avatar}}" class="focus-one-intro-avatar" style="width: {{$statusitem$focusone$avatarSize}}; height: {{$statusitem$focusone$avatarSize}}; margin-right: {{$statusitem$focusone$avatarMr}}"/>
+    <view class="focus-one-intro-info">
+      <view class="focus-one-intro-info-name" style="font-size: {{$statusitem$focusone$nameFontsize}}">{{$statusitem$focusone$name}}</view>
+      <view  wx:if="{{$statusitem$focusone$isneedtitle}}" class="focus-one-intro-info-title">{{$statusitem$focusone$title}}</view>  
+    </view>
+    <text  wx:if="{{$statusitem$focusone$isneedfocus}}" bindtap="$statusitem$focusone$addFocus" class="focus-item-intro-button">{{$statusitem$focusone$focusStatus}}</text> 
+  </view>
+
+    <view class="newstate-content">
+      <text class="newstate-content-text">{{$statusitem$statetext}}</text>
+      <view class="newstate-content-img"  wx:if="{{$statusitem$stateimg}}">
+        <image src="{{$statusitem$stateimg}}"/>  
+      </view> 
     </view>
     
-  <view class="index-wall">
-    <block  wx:if="{{$imgwall$wallImageLines}}">
-      <view class="index-wall-line" wx:for="{{$imgwall$wallImageLines}}" wx:for-item="lineItem">
-        <image mode="aspectFill" wx:for="{{lineItem}}" wx:for-item="lineItemImg" wx:for-index="lineItemIndex"  src="{{lineItemImg.imgUrl}}" bindtap="$imgwall$imgClick" data-imglink="{{lineItemImg.detailUrl}}" class="{{$imgwall$true ? 'indexWallLineImg' : ''}} {{lineItemIndex === (lineItem.length - 1) ? 'indexWallLineLastimg' : ''}}"/>
+  <view class="comment clearfix">
+    <text class="comment-time">{{$statusitem$comment$commenttime}}秒前</text>
+    <text class="comment-action">
+      <text class="comment-action-like" bindtap="$statusitem$comment$commenLike"><text class="comment-like-icon m-icon {{$statusitem$comment$isStarActive}}"/>赞</text>
+      <text class="comment-action-add" bindtap="$statusitem$comment$commentAdd"><text class="comment-add-icon m-icon m-icon-comment"/>评论</text>
+    </text>
+    <block  wx:if="{{$statusitem$comment$avatarlist}}">
+      <view class="comment-like-avatars">
+        <image class="comment-like-avatar" mode="aspectFill" wx:for="{{$statusitem$comment$avatarlist}}" wx:for-item="avatarItem" src="{{avatarItem}}"/> 
       </view>
     </block>
+    <block  wx:if="{{$statusitem$comment$commentlist}}">
+      <view class="comment-add-item" wx:for="{{$statusitem$comment$commentlist}}" wx:for-item="addItem">
+        <text class="comment-add-item-label" bindtap="$statusitem$comment$selectResponse">
+          <text wx:if="{{addItem.responseName}}"><text class="comment-add-item-name" data-select-name="{{addItem.responseName}}">{{addItem.responseName}}</text>回复</text>
+          <text class="comment-add-item-name" data-select-name="{{addItem.name}}">{{addItem.name}}:</text> 
+        </text>
+        <text class="comment-add-item-words">{{addItem.words}}</text>  
+      </view>  
+    </block>
+    <view wx:if="{{$statusitem$comment$isShowCommentInput}}" class="comment-add-input">
+      <input class="comment-add-input-text" type="text" bindblur="$statusitem$comment$commentInputBlur" placeholder="{{$statusitem$comment$commentInputDefault}}"/>
+      <text class="comment-add-input-publish" bindtap="$statusitem$comment$sendComment">发送</text>  
+    </view>
+  </view>
+  
   </view>
 
+      </view>
+    </block>
   </view>

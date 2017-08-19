@@ -1,0 +1,31 @@
+<template>
+  <view class="index-container page-container">
+    <block wx:if="{{masterList}}">
+      <view wx:for="{{masterList}}" wx:for-item="masterItem">
+        <masteritem :name="masterItem.name" :avatar="masterItem.avatar" :title="masterItem.title" :imglist="masterItem.imglist" :horiimgitemhg="masterItem.imgHgSize" :horiimgitemwd="imgWdSize"></masteritem>
+      </view>
+    </block>
+  </view>  
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import masterItem from '../components/focusItem'
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '搭配师'
+    }
+    components = {
+      masteritem: masterItem
+    }
+    data = {
+      masterList: []
+    }
+  }
+</script>
+
+<style lang="less">
+.index-container{
+  width: 100%;
+}
+</style>

@@ -1,15 +1,56 @@
 <template>
   <view class="index-container page-container">
-    <search :recommend-list="searchRecommendData"></search>
+    <search :recommendlist="searchRecommendData"></search>
     <view class="index-tabs">
       <block wx:if="{{indexTabList}}">
-        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" @tab="selectTab" style="width: {{tabItemWidth}}">
+        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item {{tabStyleItems[tabIndex]}}" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" @tap="selectTab" style="width: {{tabItemWidth}}">
           <text class="index-tabs-item-title">{{tabItem.typeTitle}}</text>
           <text wx:if="{{tabIndex < (indexTabList.length - 1)}}" class="m-icon m-icon-arrow-down"></text>
         </view>
       </block>
     </view>
-    <imgwall :wall-image-lines="imgWallData"></imgwall>
+    <view wx:if="{{isShowWall}}">
+      <imgwall :wallimagelines="imgWallData"></imgwall>
+    </view>
+    <view wx:if="{{isShowBodyCount}}" class="show-body-container">
+      <view class="show-body-tip">For Me,让我们更懂你～</view>
+      <view class="show-body-tip">完善下列信息，找到更适合你的搭配！</view>
+        <view id="step0" class="show-body-scroll-view" wx:if="{{bodyCountStep0Sshow}}">
+          <view class="show-body-scroll-view-title">体型</view>
+          <view class="show-body-scroll-view-content-body" @tap="typeSelect">
+            <view class="show-body-scroll-view-content-rowbody" wx:for="{{bodyTypeData}}" wx:for-item="bodyTypeRowData" wx:for-index="bodyTypeIndex">
+              <view class="show-body-scroll-view-content-rowbodyItem {{bodyTypeRowIndex === (bodyTypeRowData.length - 1) ? 'not-margin-right' : ''}}" wx:for="{{bodyTypeRowData}}" wx:for-item="bodyTypeRowItem" wx:for-index="bodyTypeRowIndex">
+                <image mode="aspectFill" class="show-body-scroll-view-content-row-bodyimg" src="{{bodyTypeRowItem.imgUrl}}" data-belong-row="{{bodyTypeIndex}}" data-belong-rowindex="{{bodyTypeRowIndex}}" data-type="body" data-value="{{bodyTypeRowItem.typeValue}}"/>
+                <text class="m-icon m-icon-check {{bodyTypeIcons[bodyTypeIndex][bodyTypeRowIndex]}}"></text>
+              </view>
+            </view>
+          </view>
+          <view data-step-index="0" class="show-body-scroll-view-confirmButton" @tap="bodyCountConfirm">下一步</view>
+        </view>
+        <view id="step1" class="show-body-scroll-view" wx:if="{{bodyCountStep1Sshow}}">
+          <view class="show-body-scroll-view-title">肤色</view>
+          <view class="show-body-scroll-view-content-color" @tap="typeSelect">
+            <view class="show-body-scroll-view-content-rowcolor" wx:for="{{colorTypeData}}" wx:for-item="colorTypeRowData" wx:for-index="colorTypeIndex">
+              <view class="show-body-scroll-view-content-rowcolorItem {{colorTypeRowIndex === (colorTypeRowData.length - 1) ? 'not-margin-right' : ''}}" wx:for="{{colorTypeRowData}}" wx:for-item="colorTypeRowItem" wx:for-index="colorTypeRowIndex">
+                <image mode="aspectFill" class="show-body-scroll-view-content-row-colorimg" src="{{colorTypeRowItem.imgUrl}}" data-belong-row="{{colorTypeIndex}}" data-belong-rowindex="{{colorTypeRowIndex}}" data-type="color" data-value="{{colorTypeRowItem.typeValue}}"/>
+                <view class="show-body-scroll-view-content-row-colortext {{colorTypeIcons[colorTypeIndex][colorTypeRowIndex].textcolor}}">{{colorTypeRowItem.text}}</view>
+                <text class="m-icon m-icon-check {{colorTypeIcons[colorTypeIndex][colorTypeRowIndex].icon}}"></text>
+              </view>
+            </view>
+          </view>
+          <view data-step-index="1" class="show-body-scroll-view-confirmButton" @tap="bodyCountConfirm">下一步</view>
+        </view>
+        <view id="step2" class="show-body-scroll-view" wx:if="{{bodyCountStep2Sshow}}">
+          <view class="show-body-scroll-view-title">身材特点</view>
+          <view class="show-body-scroll-view-content-feature" @tap="typeSelect">
+            <image class="show-body-scroll-view-content-featureimg" src="https://s10.mogucdn.com/mlcdn/c45406/170819_6jgjifee3fj3k6034d9746ba13ki6_599x538.png" mode="aspectFill"></image>
+            <view wx:for="{{featureTypeData}}" wx:for-item="featureTypeItem" wx:for-index="featureTypeIndex" data-type="feature" data-value="{{featureTypeItem}}" data-featureindex="{{featureTypeIndex}}" class="featureitem show-body-scroll-view-content-featureitem{{featureTypeIndex}}">
+              <text class="m-icon m-icon-check {{featureTypeIcons[featureTypeIndex]}}"></text>
+            </view>
+          </view>
+          <view data-step-index="2" class="show-body-scroll-view-confirmButton" @tap="bodyCountConfirm">完成</view>
+        </view>
+    </view>
   </view>  
 </template>
 
@@ -27,6 +68,8 @@
     }
 
     data = {
+      isShowWall: true,
+      isShowBodyCount: false,
       imgWallData: [],
       indexTabList: [{
         typeTitle: '场景',
@@ -40,7 +83,19 @@
       }, {
         typeTitle: 'For Me',
         typeData: []
-      }]
+      }],
+      imgWallData: [],
+      bodyCountStep0Sshow: true,
+      bodyCountStep1Sshow: false,
+      bodyCountStep2Sshow: false,
+      bodyCountData: {currentFeatureType: []}, // 记录用户的身材数据对象
+      tabStyleItems: ['index-tabs-item-on', '', '', ''],
+      bodyTypeIcons: [['item-nocheck', 'item-nocheck', 'item-nocheck'], ['item-nocheck', 'item-nocheck', 'item-nocheck'], ['item-nocheck', 'item-nocheck', 'item-nocheck']],
+      colorTypeIcons: [[{icon: 'item-nocheck', textcolor: 'nocheck-color'}, {icon: 'item-nocheck', textcolor: 'nocheck-color'}], [{icon: 'item-nocheck', textcolor: 'nocheck-color'}, {icon: 'item-nocheck', textcolor: 'nocheck-color'}]],
+      bodyTypeData: [[{imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_3i8ge54bjaijl416ccb5jb1783eac_120x120.png', typeValue: 'type1'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_29dk3kj9ke3eeh20geh809eg5j4kd_120x120.png', typeValue: 'type2'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_73akb81i1l804aiage4e17ffe1gi5_120x120.png', typeValue: 'type3'}], [{imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_8016k0kd8e76dih8h05h6k571c0h2_120x120.png', typeValue: 'type4'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_3a7c88g24hbhlh4cbek902a81edfb_120x120.png', typeValue: 'type5'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_0jfi75jf75dfj09j367c1hgh1kd2a_120x120.png', typeValue: 'type6'}], [{imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_37a67485eed9d4fi4ic049f5bekil_120x120.png', typeValue: 'type7'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_4b2fdhhg90gb8f28cade1dkj6hf83_120x120.png', typeValue: 'type8'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_203495f84cfc9e50eb9223f59dkjj_120x120.png', typeValue: 'type9'}]],
+      colorTypeData: [[{imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_1b472cje39bficjc20aa06a403g36_125x127.png', typeValue: 'type1', text: '晶莹白皙'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_47l6hc3598ed1hekd63kcb0411ja1_128x127.png', typeValue: 'type2', text: '自然红润'}], [{imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_07hf51daaf499k3062ab6bk60l4hb_125x123.png', typeValue: 'type3', text: '自然偏黄'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_8g5l7kl4089d42i3b5e19ek9660g8_128x123.png', typeValue: 'type4', text: '活力小麦'}]],
+      featureTypeData: ['脖子粗', '小平胸', 'PP大', '小短腿', '脸大', '胳膊粗' , '小肚腩', '小粗腿'],
+      featureTypeIcons: ['item-nocheck','item-nocheck', 'item-nocheck', 'item-nocheck', 'item-nocheck', 'item-nocheck', 'item-nocheck', 'item-nocheck']
     }
     computed = {
       tabItemWidth () {
@@ -51,7 +106,92 @@
     methods = {
       selectTab (event) {
         let currentTabIndex = event.currentTarget.dataset.tabIndex
+        this.tabStyleItems = this.tabStyleItems.map((item, index) => {
+          return currentTabIndex === index ? 'index-tabs-item-on' : ''
+        })
+        if ((currentTabIndex === this.indexTabList.length - 1) && !wepy.getStorageSync('bodyData')) {
+          this.isShowWall = false
+          this.isShowBodyCount = true
+        } else {
+          this.isShowWall = true
+          this.isShowBodyCount = false
+        }
         console.log(currentTabIndex)
+      },
+      typeSelect (event) {
+        let theDataType = event.target.dataset.type
+        let theDataValue = event.target.dataset.value
+        let theBelongRow = event.target.dataset.belongRow
+        let theBelongRowIndex = event.target.dataset.belongRowindex
+        let theFeatureIndex = event.target.dataset.featureindex
+        if (!theDataType || !theDataValue) {
+          return
+        }
+        switch (theDataType) {
+          case 'body':
+            this.bodyCountData['currentBodyType'] = theDataValue
+            this.bodyTypeIcons = this.bodyTypeIcons.map((item, index) => {
+              return theBelongRow === index ? item.map((rowitem, rowindex) => {
+                return theBelongRowIndex === rowindex ? 'item-checked' : 'item-nocheck'
+              }) : item.map((rowitem, rowindex) => {
+                return 'item-nocheck'
+              })
+            })
+            break
+          case 'color':
+            this.bodyCountData['currentColorType'] = theDataValue
+            this.colorTypeIcons = this.colorTypeIcons.map((item, index) => {
+              return theBelongRow === index ? item.map((rowitem, rowindex) => {
+                return theBelongRowIndex === rowindex ? {icon: 'item-checked', textcolor: 'checked-color'} : {icon: 'item-nocheck', textcolor: 'nocheck-color'}
+              }) : item.map((rowitem, rowindex) => {
+                return {icon: 'item-nocheck', textcolor: 'nocheck-color'}
+              })
+            })
+            break
+          case 'feature':
+            this.bodyCountData['currentFeatureType'].push(theDataValue)
+            this.featureTypeIcons[theFeatureIndex] = 'featureitem-checked'
+            break
+        }
+      },
+      bodyCountConfirm (event) {
+        let currentStepIndex = Number(event.target.dataset.stepIndex)
+        switch (currentStepIndex) {
+          case 0:
+            if (!this.bodyCountData['currentBodyType']) {
+              // 如果点击下一步时未完成数据设置，则给用户一个提示
+              wepy.showToast({
+                title: '请先完成身材类型选择',
+                icon: 'loading',
+                duration: 2000
+              })
+              return
+            }
+            this.bodyCountStep0Sshow = false
+            this.bodyCountStep1Sshow = true
+            break
+          case 1:
+            if (!this.bodyCountData['currentColorType']) {
+              wepy.showToast({
+                title: '请先完成肤色类型选择',
+                icon: 'loading',
+                duration: 2000
+              })
+              return
+            }
+            this.bodyCountStep1Sshow = false
+            this.bodyCountStep2Sshow = true
+            break
+          case 2:
+            if (!this.bodyCountData['currentFeatureType'].length) {
+              wepy.showToast({
+                title: '请先完成身材特点选择',
+                icon: 'loading',
+                duration: 2000
+              })
+            }
+            break
+        }
       }
     }
   }
@@ -71,12 +211,169 @@
   display: inline-block;
   height: 100%;
   vertical-align: top;
-  line-height: 1;
+  line-height: 90rpx;
   text-align: center;
   font-size: 27rpx;
   color: #333;
 }
+.index-tabs-item-on{
+  color: #ff713b;
+  height: 84rpx;
+  border-bottom: 6rpx solid #ff713b;
+}
 .index-tabs-item-title{
   margin-right: 10rpx;
-} 
+}
+.show-body-container{
+  width: 100%;
+  background-color: #fbfcfd;
+  padding-top: 60rpx;
+  padding-bottom: 77rpx;
+}
+.show-body-tip{
+  text-align: center;
+  font-size: 22rpx;
+  line-height: 40rpx;
+  color: #959baa;
+}
+.show-body-scroll-view{
+  margin-top: 30rpx;
+  width: 600rpx;
+  height: 800rpx;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8rpx;
+  padding-top: 41rpx;
+}
+.show-body-scroll-view-title{
+  width: 100%;
+  text-align: center;
+  font-size: 30rpx;
+  color: #2d2f3b;
+  margin-bottom: 61rpx;
+}
+.show-body-scroll-view-content-body{
+  width: 100%;
+  padding: 0 56rpx;
+}
+.show-body-scroll-view-content-color{
+  width: 100%;
+  padding: 0 112rpx;
+}
+.show-body-scroll-view-content-feature{
+  width: 100%;
+  position: relative;
+}
+.show-body-scroll-view-content-featureimg{
+  width: 100%;
+  height: 536rpx;
+}
+.show-body-scroll-view-content-rowbody{
+  margin-bottom: 64rpx;
+}
+.show-body-scroll-view-content-rowcolor{
+  margin-bottom: 60rpx;
+}
+.show-body-scroll-view-content-rowbodyItem{
+  width: 120rpx;
+  height: 120rpx;
+  margin-right: 65rpx;
+  display: inline-block;
+  position: relative;
+}
+.show-body-scroll-view-content-rowcolorItem{
+  width: 125rpx;
+  height: 127rpx;
+  margin-right: 124rpx;
+  display: inline-block;
+  position: relative;
+}
+.show-body-scroll-view-content-row-colortext{
+  width: 100%;
+  text-align: center;
+  font-size: 27rpx;
+  color: #666;
+  margin-top: 35rpx;
+}
+.show-body-scroll-view-content-row-bodyimg{
+  width: 100%;
+  height: 100%;
+}
+.show-body-scroll-view-content-row-colorimg{
+  width: 100%;
+  height: 127rpx;
+}
+.not-margin-right{
+  margin-right: 0;
+}
+.show-body-scroll-view-confirmButton{
+  width: 440rpx;
+  height: 78rpx;
+  border-radius: 39rpx;
+  background: linear-gradient(to right, #FF7b25, #ff615c);
+  text-align: center;
+  font-size: 32rpx;
+  color: #fff;
+  line-height: 78rpx;
+  margin: 88rpx auto 47rpx;
+}
+.item-nocheck{
+  display: none;
+}
+.item-checked{
+  position: absolute;
+  right: -10rpx;
+  bottom: -10rpx;
+  color: #ff713b;
+}
+.featureitem-checked{
+  position: absolute;
+  right: -30rpx;
+  bottom: -30rpx;
+  color: #ff713b;
+}
+.checked-color{
+  color: #ff713b;
+}
+.nocheck-color{
+  color: #666;
+}
+.featureitem{
+  position: absolute;
+  width: 76rpx;
+  height: 23rpx;
+  background-color: transparent;
+}
+.show-body-scroll-view-content-featureitem0{
+  left: 52rpx;
+  top: 77rpx;
+}
+.show-body-scroll-view-content-featureitem1{
+  left: 52rpx;
+  top: 144rpx;
+}
+.show-body-scroll-view-content-featureitem2{
+  left: 65rpx;
+  top: 243rpx;
+}
+.show-body-scroll-view-content-featureitem3{
+  left: 52rpx;
+  top: 410rpx;
+}
+.show-body-scroll-view-content-featureitem4{
+  right: 64rpx;
+  top: 46rpx;
+}
+.show-body-scroll-view-content-featureitem5{
+  right: 50rpx;
+  top: 123rpx;
+}
+.show-body-scroll-view-content-featureitem6{
+  right: 50rpx;
+  top: 207rpx;
+}
+.show-body-scroll-view-content-featureitem7{
+  right: 50rpx;
+  top: 327rpx;
+}
 </style>

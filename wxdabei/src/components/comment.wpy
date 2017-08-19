@@ -1,0 +1,180 @@
+<template>
+  <view class="comment clearfix">
+    <text class="comment-time">{{commenttime}}秒前</text>
+    <text class="comment-action">
+      <text class="comment-action-like" @tap="commenLike"><text class="comment-like-icon m-icon {{isStarActive}}"></text>赞</text>
+      <text class="comment-action-add" @tap="commentAdd"><text class="comment-add-icon m-icon m-icon-comment"></text>评论</text>
+    </text>
+    <block wx:if="{{avatarlist}}">
+      <view class="comment-like-avatars">
+        <image class="comment-like-avatar" mode="aspectFill" wx:for="{{avatarlist}}" wx:for-item="avatarItem" src="{{avatarItem}}"></image> 
+      </view>
+    </block>
+    <block wx:if="{{commentlist}}">
+      <view class="comment-add-item" wx:for="{{commentlist}}" wx:for-item="addItem">
+        <text class="comment-add-item-label" @tap="selectResponse">
+          <text wx:if="{{addItem.responseName}}"><text class="comment-add-item-name" data-select-name="{{addItem.responseName}}">{{addItem.responseName}}</text>回复</text>
+          <text class="comment-add-item-name" data-select-name="{{addItem.name}}">{{addItem.name}}:</text> 
+        </text>
+        <text class="comment-add-item-words">{{addItem.words}}</text>  
+      </view>  
+    </block>
+    <view wx:if="{{isShowCommentInput}}" class="comment-add-input">
+      <input class="comment-add-input-text" type="text" @blur="commentInputBlur" placeholder="{{commentInputDefault}}"/>
+      <text class="comment-add-input-publish" @tap="sendComment">发送</text>  
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class comment extends wepy.component {
+  props = {
+    commenttime: {},
+    avatarlist: {},
+    commentlist: {},
+    userinfo: {} // 微信授权登录后的用户名和用户头像信息
+  }
+  data = {
+    isStarActive: 'm-icon-star',
+    isShowCommentInput: false,
+    isResponseComment: false,
+    selectName: '',
+    commentInputDefault: '请输入您的评论',
+    currentCommentValue: null
+  }
+  methods = {
+    commenLike () {
+      if (this.isStarActive === 'm-icon-star-active') {
+        this.isStarActive = 'm-icon-star'
+        let theUserAvatarIndex = this.avatarList.indexOf(this.userinfo.avatar)
+        if (!(theUserAvatarIndex < 0)) {
+          this.avatarList.splice(theUserAvatarIndex, 1)
+        }
+      } else {
+        this.isStarActive = 'm-icon-star-active'
+        this.avatarList.push(this.userinfo.avatar)
+      }
+    },
+    commentAdd () {
+      this.isShowCommentInput = true
+      this.isResponseComment = false
+      this.commentInputDefault = '请输入您的评论'
+    },
+    selectResponse (event) {
+      let theName = event.target.dataset.selectName
+      if (!theName) {
+        return
+      }
+      this.selectName = theName
+      this.isResponseComment = true
+      this.isShowCommentInput = true
+      this.commentInputDefault = '回复@' + theName
+    },
+    commentInputBlur (event) {
+      let theInputValue = event.detail.value
+      let theCommentValue = this.isResponseComment ? {
+        responseName: this.userinfo.name,
+        name: this.selectName,
+        words: theInputValue
+      } : {
+        name: this.userinfo.name,
+        words: theInputValue
+      }
+      this.currentCommentValue = theCommentValue
+    },
+    sendComment () {
+      let currentCommentValue = this.currentCommentValue
+      if (currentCommentValue) {
+        this.commentList.push(currentCommentValue)
+      }
+      this.isShowCommentInput = false
+    }
+  }
+}
+</script>
+
+<style>
+.comment{
+  width: 100%;
+}
+.comment-time{
+  float: left;
+  font-size: 22rpx;
+  color: #999;  
+}
+.comment-action{
+  float: right;
+}
+.comment-action-like{
+  font-size: 29rpx;
+  margin-right: 96rpx; 
+}
+.comment-like-icon{
+  margin-right: 12rpx;  
+}
+.comment-action-add{
+  font-size: 29rpx;  
+}
+.comment-add-icon{
+  margin-right: 12rpx;  
+}
+.comment-like-avatars{
+  width: 100%;
+  height: 60rpx;
+  margin-top: 52rpx;
+  margin-bottom: 26rpx; 
+}
+.comment-like-avatar{
+  height: 100%;
+  width: 60rpx;
+  margin-right: 8rpx;  
+}
+.comment-add-item{
+  width: 100%;
+  font-size: 28rpx;
+  margin-bottom: 22rpx; 
+}
+.comment-add-item-label{
+  margin-right: 24rpx;
+}
+.comment-add-item-name,.comment-add-item-name{
+  color: #333;  
+}
+.comment-add-item-words{
+  color: #666;  
+}
+.comment-add-input{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 15rpx 10rpx;
+  border: 1rpx solid #666;  
+}
+.comment-add-input-text{
+  padding-left: 10rpx;
+  display: inline-block;
+  width: 70%;
+  height: 80rpx;
+  border: 1rpx solid #666;
+  line-height: 78rpx;
+  font-size: 26rpx;
+  color: #333;
+  vertical-align: top;
+}
+.comment-add-input-publish{
+  width: 28%;
+  border-top: 1rpx solid #333;
+  border-right: 1rpx solid #333;
+  border-bottom: 1rpx solid #333;
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+  height: 80rpx;
+  line-height: 78rpx;
+  font-size: 26rpx;
+  color: #fff;
+  background-color: #ff7335; 
+}
+</style>

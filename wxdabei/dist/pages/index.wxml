@@ -11,9 +11,9 @@
       <text class="search-input-confirm"  wx:if="{{$search$inputHasFocus}}">搜索</text>
     </view>
     <view class="search-recommend">
-      <text  wx:if="{{$search$recommendList}}" class="search-recommend-clear" bindtap="$search$clearRecommendData">清除</text>  
-      <block wx:if="{{$search$recommendList}}"> 
-        <view class="search-recommend-item" wx:for="{{$search$recommendList}}" wx:for-item="recommendItem">
+      <text  wx:if="{{$search$recommendlist}}" class="search-recommend-clear" bindtap="$search$clearRecommendData">清除</text>  
+      <block wx:if="{{$search$recommendlist}}"> 
+        <view class="search-recommend-item" wx:for="{{$search$recommendlist}}" wx:for-item="recommendItem">
           <view class="search-recommend-item-title">{{recommendItem.title}}</view>
           <view class="search-recommend-item-content">
             <block wx:if="{{recommendItem.contentList}}">
@@ -28,19 +28,66 @@
 
     <view class="index-tabs">
       <block  wx:if="{{indexTabList}}">
-        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" bindtab="selectTab" style="width: {{tabItemWidth}}">
+        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item {{tabStyleItems[tabIndex]}}" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" bindtap="selectTab" style="width: {{tabItemWidth}}">
           <text class="index-tabs-item-title">{{tabItem.typeTitle}}</text>
           <text wx:if="{{tabIndex < (indexTabList.length - 1)}}" class="m-icon m-icon-arrow-down"/>
         </view>
       </block>
     </view>
-    
+    <view  wx:if="{{isShowWall}}">
+      
   <view class="index-wall">
-    <block  wx:if="{{$imgwall$wallImageLines}}">
-      <view class="index-wall-line" wx:for="{{$imgwall$wallImageLines}}" wx:for-item="lineItem">
-        <image mode="aspectFill" wx:for="{{lineItem}}" wx:for-item="lineItemImg" wx:for-index="lineItemIndex"  src="{{lineItemImg.imgUrl}}" bindtap="$imgwall$imgClick" data-imglink="{{lineItemImg.detailUrl}}" class="{{$imgwall$true ? 'indexWallLineImg' : ''}} {{lineItemIndex === (lineItem.length - 1) ? 'indexWallLineLastimg' : ''}}"/>
+    <block  wx:if="{{$imgwall$wallimagelines}}">
+      <view class="index-wall-line" wx:for="{{$imgwall$wallimagelines}}" wx:for-item="lineItem">
+        <view class="index-wall-line-imgItemView {{$imgwall$lineItemIndex === (lineItem.length - 1) ? 'index-wall-line-lastimg' : ''}}" wx:for="{{lineItem}}" wx:for-item="lineItemImg" wx:for-index="lineItemIndex" style="width:{{$imgwall$imgunitwd}};height:{{$imgwall$imgunithg}};">
+          <image mode="aspectFill" class="index-wall-line-img" src="{{lineItemImg.imgUrl}}" bindtap="$imgwall$imgClick" data-imglink="{{lineItemImg.detailUrl || $imgwall$lineImg.imgUrl}}"/>
+          <view class="index-wall-line-imglike" wx:if="{{$imgwall$isneedshowlike}}">
+            <text class="m-icon m-icon-star index-wall-line-imglike-star" bindtap="$imgwall$addLike" data-belong-item="{{lineItemImg}}"/>
+            <text class="index-wall-line-imglike-number">{{lineItemImg.likeNumber}}</text>
+          </view>
+        </view>
       </view>
     </block>
   </view>
 
+    </view>
+    <view  wx:if="{{isShowBodyCount}}" class="show-body-container">
+      <view class="show-body-tip">For Me,让我们更懂你～</view>
+      <view class="show-body-tip">完善下列信息，找到更适合你的搭配！</view>
+        <view id="step0" class="show-body-scroll-view" wx:if="{{bodyCountStep0Sshow}}">
+          <view class="show-body-scroll-view-title">体型</view>
+          <view class="show-body-scroll-view-content-body" bindtap="typeSelect">
+            <view class="show-body-scroll-view-content-rowbody" wx:for="{{bodyTypeData}}" wx:for-item="bodyTypeRowData" wx:for-index="bodyTypeIndex">
+              <view class="show-body-scroll-view-content-rowbodyItem {{bodyTypeRowIndex === (bodyTypeRowData.length - 1) ? 'not-margin-right' : ''}}" wx:for="{{bodyTypeRowData}}" wx:for-item="bodyTypeRowItem" wx:for-index="bodyTypeRowIndex">
+                <image mode="aspectFill" class="show-body-scroll-view-content-row-bodyimg" src="{{bodyTypeRowItem.imgUrl}}" data-belong-row="{{bodyTypeIndex}}" data-belong-rowindex="{{bodyTypeRowIndex}}" data-type="body" data-value="{{bodyTypeRowItem.typeValue}}"/>
+                <text class="m-icon m-icon-check {{bodyTypeIcons[bodyTypeIndex][bodyTypeRowIndex]}}"/>
+              </view>
+            </view>
+          </view>
+          <view data-step-index="0" class="show-body-scroll-view-confirmButton" bindtap="bodyCountConfirm">下一步</view>
+        </view>
+        <view id="step1" class="show-body-scroll-view" wx:if="{{bodyCountStep1Sshow}}">
+          <view class="show-body-scroll-view-title">肤色</view>
+          <view class="show-body-scroll-view-content-color" bindtap="typeSelect">
+            <view class="show-body-scroll-view-content-rowcolor" wx:for="{{colorTypeData}}" wx:for-item="colorTypeRowData" wx:for-index="colorTypeIndex">
+              <view class="show-body-scroll-view-content-rowcolorItem {{colorTypeRowIndex === (colorTypeRowData.length - 1) ? 'not-margin-right' : ''}}" wx:for="{{colorTypeRowData}}" wx:for-item="colorTypeRowItem" wx:for-index="colorTypeRowIndex">
+                <image mode="aspectFill" class="show-body-scroll-view-content-row-colorimg" src="{{colorTypeRowItem.imgUrl}}" data-belong-row="{{colorTypeIndex}}" data-belong-rowindex="{{colorTypeRowIndex}}" data-type="color" data-value="{{colorTypeRowItem.typeValue}}"/>
+                <view class="show-body-scroll-view-content-row-colortext {{colorTypeIcons[colorTypeIndex][colorTypeRowIndex].textcolor}}">{{colorTypeRowItem.text}}</view>
+                <text class="m-icon m-icon-check {{colorTypeIcons[colorTypeIndex][colorTypeRowIndex].icon}}"/>
+              </view>
+            </view>
+          </view>
+          <view data-step-index="1" class="show-body-scroll-view-confirmButton" bindtap="bodyCountConfirm">下一步</view>
+        </view>
+        <view id="step2" class="show-body-scroll-view" wx:if="{{bodyCountStep2Sshow}}">
+          <view class="show-body-scroll-view-title">身材特点</view>
+          <view class="show-body-scroll-view-content-feature" bindtap="typeSelect">
+            <image class="show-body-scroll-view-content-featureimg" src="https://s10.mogucdn.com/mlcdn/c45406/170819_6jgjifee3fj3k6034d9746ba13ki6_599x538.png" mode="aspectFill"/>
+            <view wx:for="{{featureTypeData}}" wx:for-item="featureTypeItem" wx:for-index="featureTypeIndex" data-type="feature" data-value="{{featureTypeItem}}" data-featureindex="{{featureTypeIndex}}" class="featureitem show-body-scroll-view-content-featureitem{{featureTypeIndex}}">
+              <text class="m-icon m-icon-check {{featureTypeIcons[featureTypeIndex]}}"/>
+            </view>
+          </view>
+          <view data-step-index="2" class="show-body-scroll-view-confirmButton" bindtap="bodyCountConfirm">完成</view>
+        </view>
+    </view>
   </view>

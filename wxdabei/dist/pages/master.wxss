@@ -1,3 +1,4 @@
-@import "./../components/indexwall.wxss";
-@import "./../components/searchBar.wxss";
-.index-container{width:100%;padding-left:23rpx;padding-right:23rpx}.index-tabs{width:100%;height:90rpx}.index-tabs-item{display:inline-block;height:100%;vertical-align:top;line-height:1;text-align:center;font-size:27rpx;color:#333}.index-tabs-item-title{margin-right:10rpx}
+@import "./../components/newState.wxss";
+@import "./../components/horiImgList.wxss";
+@import "./../components/focusOne.wxss";
+.index-container{width:100%}.master-detail-main{padding-left:23rpx;padding-right:23rpx;padding-top:42rpx;padding-bottom:42rpx}.master-detail-status{width:100%;height:107rpx;border-top:1rpx solid #e5e5e5;border-bottom:1rpx solid #e5e5e5}.master-detail-status-textItem{width:250rpx;height:105rpx;font-size:26rpx;color:#111;display:inline-block;vertical-align:top;line-height:105rpx;text-align:center}.master-detail-imglibs{width:100%;padding:33rpx;border-bottom:1rpx solid #e5e5e5}

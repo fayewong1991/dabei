@@ -1,8 +1,8 @@
 <template>
-  <view class="horizontal-imgList">
+  <view class="horizontal-imgList" style="height: {{horiimgitemhg}}">
     <scroll-view scroll-x style="width:100%">
       <block wx:for="{{imglist}}">
-        <image mode="aspectFill" class="horizontal-imgList-item" wx:for="{{imglist}}" wx:for-item="imgItem" @tap="imgClick" data-imglink="{{imgItem.detailUrl}}" src="{{imgItem.imgUrl}}"></image>
+        <image mode="aspectFill" class="horizontal-imgList-item" style="width: {{horiimgitemwd}}" wx:for="{{imglist}}" wx:for-item="imgItem" @tap="imgClick" data-imglink="{{imgItem.detailUrl}}" src="{{imgItem.imgUrl}}"></image>
       </block>  
     </scroll-view>  
   </view>
@@ -13,7 +13,9 @@ import wepy from 'wepy'
 import {goto} from '../utils.js'
 export default class horiImgList extends wepy.component {
   props = {
-    imglist: {}
+    imglist: {},
+    horiimgitemhg: {},
+    horiimgitemwd: {}
   }
   methods = {
     imgClick (event) {

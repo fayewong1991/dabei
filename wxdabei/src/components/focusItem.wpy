@@ -1,40 +1,47 @@
 <template>
   <view class="focus-item">
-    <view class="focus-item-intro">
-      <image mode="aspectFill" src="{{avatar}}" class="focus-item-intro-avatar"></image>
-      <view class="focus-item-intro-info">
-        <view class="focus-item-intro-info-name">{{name}}</view>
-        <view class="focus-item-intro-info-title">{{title}}</view>  
-      </view>
-      <text @tap="addFocus" class="focus-item-intro-button">{{focusStatus}}</text> 
+    <view class="focus-item-baseinfo">
+      <focusone :avatar="avatar" :name="name" :title="title" :isdetail="isDetail"></focusone>
     </view>
-    <focusitemimgs :imglist="imglist"></focusitemimgs>  
+    <focusitemimgs :imglist="imglist" :horiimgitemhg="horiimgitemhg" :horiimgitemwd="horiimgitemwd"></focusitemimgs>  
   </view>
 </template>
 
 <script>
 import wepy from 'wepy'
-import horiImgList from './horiImgList.wpy'
+import horiImgList from './horiImgList'
+import focusOne from './focusOne'
 export default class focusItem extends wepy.component {
   props = {
     avatar: {},
     name: {},
     title: {},
-    imglist: {}
+    imglist: {},
+    horiimgitemhg: '',
+    horiimgitemwd: ''
   }
   data = {
-    focusStatus: '＋关注'
+    isDetail: false
   }
   components = {
-    focusitemimgs: horiImgList
+    focusitemimgs: horiImgList,
+    focusone: focusOne
   }
   methods = {
-    addFocus () {
-      this.focusStatus = '已关注'
-    }
   }
 }
 </script>
 
 <style lang="less">
+.focus-item{
+  width: 100%;
+  padding-top: 31rpx;
+  padding-bottom: 31rpx;
+  padding-left: 23rpx;
+  padding-right: 23rpx;
+  border-bottom: 1rpx solid #efefef;
+}
+.focus-item-baseinfo{
+  margin-bottom: 25rpx;
+}
 </style>

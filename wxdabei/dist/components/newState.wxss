@@ -1,0 +1,19 @@
+@import "./comment.wxss";
+@import "./focusOne.wxss";
+
+.newstate{
+  width: 100%;
+  padding: 40rpx 31rpx;
+  border-bottom: 1rpx solid #e5e5e5;  
+}
+.newstate-content{
+  margin-top: 36rpx;
+  margin-bottom: 36rpx;  
+}
+.newstate-content-text{
+  font-size: 29rpx;
+  color: #666;  
+}
+.newstate-content-img{
+  margin-top: 32rpx;  
+}

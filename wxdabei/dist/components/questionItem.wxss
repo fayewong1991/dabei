@@ -1,0 +1,33 @@
+
+.question{
+  width: 100%;
+  border-bottom: 1rpx solid #efefef;
+  padding: 32rpx 33rpx;
+}
+.question-title{
+  width: 100%;
+  font-size: 29rpx;
+  color: #2d2f3b;
+  margin-bottom: 23rpx;  
+}
+.question-content{
+  width: 100%;
+  font-size: 26rpx;
+  line-height: 36rpx;
+  color: 999;
+  margin-bottom: 50rpx;  
+}
+.question-extra{
+  width: 100%;
+  font-size: 24rpx;
+  color: #999;
+}
+.question-extra-author{
+  float: left;  
+}
+.question-extra-number{
+  float: right;  
+}
+.question-extra-number-read{
+  margin-right: 13rpx;  
+}

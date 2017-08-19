@@ -1,0 +1,87 @@
+<template>
+  <view class="focus-one" style="height: {{avatarSize}};">
+    <image mode="aspectFill" src="{{avatar}}" class="focus-one-intro-avatar" style="width: {{avatarSize}}; height: {{avatarSize}}; margin-right: {{avatarMr}}"></image>
+    <view class="focus-one-intro-info">
+      <view class="focus-one-intro-info-name" style="font-size: {{nameFontsize}}">{{name}}</view>
+      <view wx:if="{{isneedtitle}}" class="focus-one-intro-info-title">{{title}}</view>  
+    </view>
+    <text wx:if="{{isneedfocus}}" @tap="addFocus" class="focus-item-intro-button">{{focusStatus}}</text> 
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class focusItem extends wepy.component {
+  props = {
+    avatar: {},
+    name: {},
+    title: {},
+    isdetail: {},
+    isneedtitle: {
+      type: Boolean,
+      default: true
+    },
+    isneedfocus: {
+      type: Boolean,
+      default: true
+    }
+  }
+  data = {
+    focusStatus: '＋关注'
+  }
+  computed = {
+    avatarSize () {
+      return this.isdetail ? '168rpx' : '80rpx'
+    },
+    avatarMr () {
+      return this.isdetail ? '36rpx' : '18rpx'
+    },
+    nameFontsize () {
+      return this.isdetail ? '48rpx' : '30rpx'
+    }
+  }
+  methods = {
+    addFocus () {
+      this.focusStatus = '已关注'
+    }
+  }
+}
+</script>
+
+<style lang="less">
+.focus-one{
+  width: 100%;
+  position: relative;  
+}
+.focus-one-intro-avatar{
+  display: inline-block;
+  vertical-align: center;  
+}
+.focus-one-intro-info{
+  display: inline-block;
+  vertical-align: center;   
+}
+.focus-one-intro-info-name{
+  color: #333;
+  margin-bottom: 15rpx;  
+}
+.focus-one-intro-info-title{
+  font-size: 22rpx;
+  color: #999;  
+}
+.focus-item-intro-button{
+  position: absolute;
+  right: 0;  
+  width: 128rpx;
+  height: 56rpx;
+  display: block;
+  vertical-align: center;
+  border: 1rpx solid #2d2f3b;
+  font-size: 26rpx;
+  color: #666;
+  text-align: center;
+  line-height: 54rpx;
+  background-color: #fff;
+  border-radius: 4rpx;  
+}
+</style>

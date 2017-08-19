@@ -1,0 +1,5 @@
+@import "./../components/indexwall.wxss";
+
+.album-container{
+  width: 100%;  
+}

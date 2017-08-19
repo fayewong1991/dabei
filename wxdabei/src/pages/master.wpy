@@ -1,66 +1,53 @@
 <template>
-  <view class="index-container">
-    <search :recommend-list="searchRecommendData"></search>
-    <view class="index-tabs">
-      <block wx:if="{{indexTabList}}">
-        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" @tab="selectTab" style="width: {{tabItemWidth}}">
-          <text class="index-tabs-item-title">{{tabItem.typeTitle}}</text>
-          <text wx:if="{{tabIndex < (indexTabList.length - 1)}}" class="m-icon m-icon-arrow-down"></text>
-        </view>
-      </block>
+  <view class="index-container page-container">
+    <view class="master-detail-main"> 
+      <masterone :avatar="mainAvatar" :name="mainName" :title="mainTitle" :isdetail="mainDetail" :isneedtitle="isMainNeedTitle" :isneedfocus="isMainNeedFocus"></masterone>
     </view>
-    <imgwall :wall-image-lines="imgWallData"></imgwall>
+    <view class="master-detail-status">
+      <text class="master-detail-status-textItem master-detail-status-essay">{{essayNumber}}发帖</text>
+      <text class="master-detail-status-textItem master-detail-status-like">{{likeNumber}}赞</text>
+      <text class="master-detail-status-textItem master-detail-status-comment">{{commentNumber}}评论</text>  
+    </view>
+    <view class="master-detail-imglibs">
+      <imghorilist :imglist="detaiImglist" :horiimgitemhg="detailImgHg" :horiimgitemwd="detailImgWd"></imghorilist>  
+    </view>  
+    <block wx:if="{{masterStatusList}}">
+      <view wx:for="{{masterStatusList}}" wx:for-item="masterStatusItem">
+        <statusitem :statetext="masterStatusItem.stateText" :focusname="masterStatusItem.focusName" :focusavatar="masterStatusItem.focusAvatar" :stateimg="masterStatusItem.stateImg" :userinfo="userInfo" :commentstarttime="masterStatusItem.commentStartTime" :commentavatarlist="masterStatusItem.commentAvatarList" :commentdatalist="masterStatusItem.commentDataList"></statusitem>
+      </view>
+    </block>
   </view>  
 </template>
 
 <script>
   import wepy from 'wepy'
-  import searchBar from '../components/searchBar'
-  import imgWall from '../components/indexwall'
+  import masterOne from '../components/focusOne'
+  import horiImgList from '../components/horiImgList'
+  import statusItem from '../components/newState'
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: '搭呗'
+      navigationBarTitleText: '搭配师'
     }
     components = {
-      search: searchBar,
-      imgwall: imgWall
+      masterone: masterOne,
+      imghorilist: horiImgList,
+      statusitem: statusItem
     }
-
     data = {
-      imgWallData: [],
-      indexTabList: [{
-        typeTitle: '场景',
-        typeData: []
-      }, {
-        typeTitle: '身材',
-        typeData: []
-      }, {
-        typeTitle: '风格',
-        typeData: []
-      }, {
-        typeTitle: 'For Me',
-        typeData: []
-      }]
-    }
-    computed = {
-      tabItemWidth () {
-        return 1 / (this.indexTabList.length) * 100 + '%'
-      }
-    }
-
-    methods = {
-      onLoad () {
-        let self = this
-        this.$parent.getUserInfo(function (userInfo) {
-          if (userInfo) {
-            self.userInfo = userInfo
-          }
-        })
-      },
-      selectTab (event) {
-        let currentTabIndex = event.currentTarget.dataset.tabIndex
-        console.log(currentTabIndex)
-      }
+      userInfo: {},
+      mainAvatar: '',
+      mainName: '',
+      mainTitle: '',
+      isMainNeedTitle: true,
+      mainDetail: true,
+      isMainNeedFocus: true,
+      essayNumber: '',
+      likeNumber: '',
+      commentNumber: '',
+      detaiImglist: '',
+      detailImgHg: '126rpx',
+      detailImgWd: '126rpx',
+      masterStatusList: []
     }
   }
 </script>
@@ -68,23 +55,32 @@
 <style lang="less">
 .index-container{
   width: 100%;
+}
+.master-detail-main{
   padding-left: 23rpx;
   padding-right: 23rpx;
+  padding-top: 42rpx;
+  padding-bottom: 42rpx;
 }
-.index-tabs{
+.master-detail-status{
   width: 100%;
-  height: 90rpx;
+  height: 107rpx;
+  border-top: 1rpx solid #e5e5e5;
+  border-bottom: 1rpx solid #e5e5e5;
 }
-.index-tabs-item{
+.master-detail-status-textItem{
+  width: 250rpx;
+  height: 105rpx;
+  font-size: 26rpx;
+  color: #111;
   display: inline-block;
-  height: 100%;
   vertical-align: top;
-  line-height: 1;
-  text-align: center;
-  font-size: 27rpx;
-  color: #333;
+  line-height: 105rpx;
+  text-align: center;  
 }
-.index-tabs-item-title{
-  margin-right: 10rpx;
-} 
+.master-detail-imglibs{
+  width: 100%;
+  padding: 33rpx;
+  border-bottom: 1rpx solid #e5e5e5; 
+}
 </style>

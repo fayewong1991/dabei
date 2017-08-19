@@ -1,0 +1,32 @@
+
+  <view class="index-container page-container">
+    <block  wx:if="{{masterList}}">
+      <view wx:for="{{masterList}}" wx:for-item="masterItem">
+        
+  <view class="focus-item">
+    <view class="focus-item-baseinfo">
+      
+  <view class="focus-one" style="height: {{$masteritem$focusone$avatarSize}};">
+    <image mode="aspectFill" src="{{$masteritem$focusone$avatar}}" class="focus-one-intro-avatar" style="width: {{$masteritem$focusone$avatarSize}}; height: {{$masteritem$focusone$avatarSize}}; margin-right: {{$masteritem$focusone$avatarMr}}"/>
+    <view class="focus-one-intro-info">
+      <view class="focus-one-intro-info-name" style="font-size: {{$masteritem$focusone$nameFontsize}}">{{$masteritem$focusone$name}}</view>
+      <view  wx:if="{{$masteritem$focusone$isneedtitle}}" class="focus-one-intro-info-title">{{$masteritem$focusone$title}}</view>  
+    </view>
+    <text  wx:if="{{$masteritem$focusone$isneedfocus}}" bindtap="$masteritem$focusone$addFocus" class="focus-item-intro-button">{{$masteritem$focusone$focusStatus}}</text> 
+  </view>
+
+    </view>
+    
+  <view class="horizontal-imgList" style="height: {{$masteritem$focusitemimgs$horiimgitemhg}}">
+    <scroll-view scroll-x style="width:100%">
+      <block  wx:for="{{$masteritem$focusitemimgs$imglist}}">
+        <image mode="aspectFill" class="horizontal-imgList-item" style="width: {{$masteritem$focusitemimgs$horiimgitemwd}}" wx:for="{{$masteritem$focusitemimgs$imglist}}" wx:for-item="imgItem" bindtap="$masteritem$focusitemimgs$imgClick" data-imglink="{{imgItem.detailUrl}}" src="{{imgItem.imgUrl}}"/>
+      </block>  
+    </scroll-view>  
+  </view>
+  
+  </view>
+
+      </view>
+    </block>
+  </view>

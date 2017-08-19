@@ -1,0 +1,2 @@
+@import "./../components/focusItem.wxss";
+.index-container{width:100%}

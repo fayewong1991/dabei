@@ -1,0 +1,67 @@
+<template>
+  <view class="newstate">
+    <focusone :isdetail="focus.isDetail" :isneedtile="focus.isNeedTitle" :isneedfocus="focus.isNeedFocus" :avatar="focus.avatar" :name="focus.name"></focusone>
+    <view class="newstate-content">
+      <text class="newstate-content-text">{{statetext}}</text>
+      <view class="newstate-content-img" wx:if="{{stateimg}}">
+        <image src="{{stateimg}}"></image>  
+      </view> 
+    </view>
+    <comment :commenttime="comment.time" :avatarlist="comment.avatarList" :commentlist="comment.commentList" :userinfo="userInfo"></comment>  
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import focusOne from './focusOne'
+import comment from './comment'
+export default class newstate extends wepy.component {
+  props = {
+    statetext: {},
+    focusname: {},
+    focusavatar: {},
+    stateimg: {},
+    userinfo: {},
+    commentstarttime: {},
+    commentavatarlist: {},
+    commentdatalist: {}
+  }
+  components = {
+    focusone: focusOne,
+    comment: comment
+  }
+  data = {
+    focus: {
+      isDetail: false,
+      isNeedTitle: false,
+      isNeedFocus: false,
+      name: this.focusname,
+      avatar: this.focusavatar
+    },
+    comment: {
+      time: this.commentstarttime,
+      avatarList: this.commentavatarlist,
+      commentList: this.commentdatalist
+    }
+  }
+}
+</script>
+
+<style>
+.newstate{
+  width: 100%;
+  padding: 40rpx 31rpx;
+  border-bottom: 1rpx solid #e5e5e5;  
+}
+.newstate-content{
+  margin-top: 36rpx;
+  margin-bottom: 36rpx;  
+}
+.newstate-content-text{
+  font-size: 29rpx;
+  color: #666;  
+}
+.newstate-content-img{
+  margin-top: 32rpx;  
+}
+</style>

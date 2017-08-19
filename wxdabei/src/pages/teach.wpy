@@ -49,14 +49,6 @@
     }
 
     methods = {
-      onLoad () {
-        let self = this
-        this.$parent.getUserInfo(function (userInfo) {
-          if (userInfo) {
-            self.userInfo = userInfo
-          }
-        })
-      },
       selectTab (event) {
         let currentTabIndex = event.currentTarget.dataset.tabIndex
         console.log(currentTabIndex)

@@ -1,0 +1,65 @@
+<template>
+  <view class="question">
+    <view class="question-title">{{title}}</view>
+    <view class="question-content">
+      <text class="question-content-proposer">{{proposer}}</text>
+      <text class="question-content-proposeintro">{{proposecontent}}</text> 
+    </view>
+    <view class="question-extra clearfix">
+      <text class="question-extra-author">作者：{{author}}</text>
+      <text class="question-extra-number">
+        <text class="question-extra-number-read">{{readnumber}}阅读量</text>
+        <text class="question-extra-number-commend">{{commendnumber}}评论</text> 
+      </text> 
+    </view> 
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class questionItem extends wepy.component {
+  props = {
+    title: {},
+    proposer: {},
+    proposecontent: {},
+    author: {},
+    readnumber: {},
+    commendnumber: {}
+  }
+}
+</script>
+
+<style>
+.question{
+  width: 100%;
+  border-bottom: 1rpx solid #efefef;
+  padding: 32rpx 33rpx;
+}
+.question-title{
+  width: 100%;
+  font-size: 29rpx;
+  color: #2d2f3b;
+  margin-bottom: 23rpx;  
+}
+.question-content{
+  width: 100%;
+  font-size: 26rpx;
+  line-height: 36rpx;
+  color: 999;
+  margin-bottom: 50rpx;  
+}
+.question-extra{
+  width: 100%;
+  font-size: 24rpx;
+  color: #999;
+}
+.question-extra-author{
+  float: left;  
+}
+.question-extra-number{
+  float: right;  
+}
+.question-extra-number-read{
+  margin-right: 13rpx;  
+}
+</style>

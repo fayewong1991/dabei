@@ -1,0 +1,29 @@
+<template>
+  <view class="album-container">
+    <albumwall :wallimagelines="albumImageLines" :isneedshowlike="isAlbumNeedLike" imgunitwd="246rpx" imunit-hg="246rpx"></albumwall> 
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import albumWall from '../components/indexwall'
+import masterPersonaImgs from '../mixins/data.js'
+export default class album extends wepy.page {
+  data = {
+    isAlbumNeedLike: false,
+    albumImageLines: []
+  }
+  components = {
+    albumwall: albumWall
+  }
+  onLoad (options) {
+    this.albumImageLines = masterPersonaImgs[options.masterId]
+  }
+}
+</script>
+
+<style>
+.album-container{
+  width: 100%;  
+}
+</style>

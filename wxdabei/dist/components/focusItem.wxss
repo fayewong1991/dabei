@@ -1,0 +1,3 @@
+@import "./focusOne.wxss";
+@import "./horiImgList.wxss";
+.focus-item{width:100%;padding-top:31rpx;padding-bottom:31rpx;padding-left:23rpx;padding-right:23rpx;border-bottom:1rpx solid #efefef}.focus-item-baseinfo{margin-bottom:25rpx}

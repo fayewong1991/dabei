@@ -1,0 +1,38 @@
+
+  <view class="master-detail">
+    <view class="master-detail-maininfo">
+      <view class="master-detail-imgview">
+        <image class="master-detail-img" src="{{detaiData.mainImg}}" mode="aspectFill"/>  
+      </view>
+      <view class="master-detail-textview">{{detailData.detailText}}</view>
+      <view class="master-detail-like"><image class="master-detail-like" src="{{detailData.likeImgUrl}}"/></view>
+      <view class="master-detail-likeText">已有{{detailData.likeNumber}}人赞了</view>
+    </view>
+    <view class="master-detail-focus">
+      
+  <view class="focus-item">
+    <view class="focus-item-baseinfo">
+      
+  <view class="focus-one" style="height: {{$focusitem$focusone$avatarSize}};">
+    <image mode="aspectFill" src="{{$focusitem$focusone$avatar}}" class="focus-one-intro-avatar" style="width: {{$focusitem$focusone$avatarSize}}; height: {{$focusitem$focusone$avatarSize}}; margin-right: {{$focusitem$focusone$avatarMr}}"/>
+    <view class="focus-one-intro-info">
+      <view class="focus-one-intro-info-name" style="font-size: {{$focusitem$focusone$nameFontsize}}">{{$focusitem$focusone$name}}</view>
+      <view  wx:if="{{$focusitem$focusone$isneedtitle}}" class="focus-one-intro-info-title">{{$focusitem$focusone$title}}</view>  
+    </view>
+    <text  wx:if="{{$focusitem$focusone$isneedfocus}}" bindtap="$focusitem$focusone$addFocus" class="focus-item-intro-button">{{$focusitem$focusone$focusStatus}}</text> 
+  </view>
+
+    </view>
+    
+  <view class="horizontal-imgList" style="height: {{$focusitem$focusitemimgs$horiimgitemhg}}">
+    <scroll-view scroll-x style="width:100%">
+      <block  wx:for="{{$focusitem$focusitemimgs$imglist}}">
+        <image mode="aspectFill" class="horizontal-imgList-item" style="width: {{$focusitem$focusitemimgs$horiimgitemwd}}" wx:for="{{$focusitem$focusitemimgs$imglist}}" wx:for-item="imgItem" bindtap="$focusitem$focusitemimgs$imgClick" data-imglink="{{imgItem.detailUrl}}" src="{{imgItem.imgUrl}}"/>
+      </block>  
+    </scroll-view>  
+  </view>
+  
+  </view>
+
+    </view>
+  </view>

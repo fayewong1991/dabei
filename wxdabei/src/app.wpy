@@ -20,6 +20,11 @@
 .page-container{
   box-sizing: border-box;
 }
+.clearfix::after{
+  content: '';
+  display: block;
+  clear: both;
+}
 </style>
 
 <script>
@@ -30,32 +35,48 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/index',
-      'pages/master',
+      'pages/masterlist',
       'pages/chat',
       'pages/teach',
-      'pages/personal'
+      'pages/personal',
+      'pages/master',
+      'pages/album',
+      'pages/detail'
     ],
     tabBar: {
+      color: "#c0c0c4",
+      selectedColor: "#2d2f3b",
+      backgroundColor: '#fff',
       list: [
         {
           pagePath: 'pages/index',
-          text: '搭呗'
+          text: '搭呗',
+          iconPath: 'assets/tabbottom.png',
+          selectedIconPath: 'assets/tabselected.png'
         },
         {
-          pagePath: 'pages/master',
-          text: '搭师'
+          pagePath: 'pages/masterlist',
+          text: '搭师',
+          iconPath: 'assets/tabbottom.png',
+          selectedIconPath: 'assets/tabselected.png'
         },
         {
           pagePath: 'pages/chat',
-          text: '聊搭'
+          text: '聊搭',
+          iconPath: 'assets/tabbottom.png',
+          selectedIconPath: 'assets/tabselected.png'
         },
         {
           pagePath: 'pages/teach',
-          text: '教搭'
+          text: '教搭',
+          iconPath: 'assets/tabbottom.png',
+          selectedIconPath: 'assets/tabselected.png'
         },
         {
           pagePath: 'pages/personal',
-          text: '我的'
+          text: '我的',
+          iconPath: 'assets/tabbottom.png',
+          selectedIconPath: 'assets/tabselected.png'
         }
       ]
     },
