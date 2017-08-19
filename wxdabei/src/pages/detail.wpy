@@ -20,7 +20,9 @@
   import {masterDetailData} from '../mixins/data.js'
   export default class detail extends wepy.page {
     data = {
-      detailData: {}
+      detailData: {
+        likeImgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_2dbah8fc3cfckf714a65d5b50lfl8_89x88.png'
+      }
     }
     components = {
       focusitem: focusItem

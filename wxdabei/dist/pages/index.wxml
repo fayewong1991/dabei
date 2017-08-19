@@ -28,7 +28,7 @@
 
     <view class="index-tabs">
       <block  wx:if="{{indexTabList}}">
-        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item {{tabStyleItems[tabIndex]}}" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" bindtap="selectTab" style="width: {{tabItemWidth}}">
+        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item {{tabStyleItems[tabIndex]}}" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" data-tab-type="{{tabItem.typeData}}" bindtap="selectTab" style="width: {{tabItemWidth}}">
           <text class="index-tabs-item-title">{{tabItem.typeTitle}}</text>
           <text wx:if="{{tabIndex < (indexTabList.length - 1)}}" class="m-icon m-icon-arrow-down"/>
         </view>
@@ -39,7 +39,7 @@
   <view class="index-wall">
     <block  wx:if="{{$imgwall$wallimagelines}}">
       <view class="index-wall-line" wx:for="{{$imgwall$wallimagelines}}" wx:for-item="lineItem">
-        <view class="index-wall-line-imgItemView {{$imgwall$lineItemIndex === (lineItem.length - 1) ? 'index-wall-line-lastimg' : ''}}" wx:for="{{lineItem}}" wx:for-item="lineItemImg" wx:for-index="lineItemIndex" style="width:{{$imgwall$imgunitwd}};height:{{$imgwall$imgunithg}};">
+        <view wx:for="{{lineItem}}" wx:for-item="lineItemImg" wx:for-index="lineItemIndex" class="index-wall-line-imgItemView {{lineItemIndex === (lineItem.length - 1) ? 'index-wall-line-lastimg' : ''}}" style="width:{{$imgwall$imgunitwd}};height:{{$imgwall$imgunithg}};">
           <image mode="aspectFill" class="index-wall-line-img" src="{{lineItemImg.imgUrl}}" bindtap="$imgwall$imgClick" data-imglink="{{lineItemImg.detailUrl || $imgwall$lineImg.imgUrl}}"/>
           <view class="index-wall-line-imglike" wx:if="{{$imgwall$isneedshowlike}}">
             <text class="m-icon m-icon-star index-wall-line-imglike-star" bindtap="$imgwall$addLike" data-belong-item="{{lineItemImg}}"/>

@@ -3,7 +3,7 @@
     <search :recommendlist="searchRecommendData"></search>
     <view class="index-tabs">
       <block wx:if="{{indexTabList}}">
-        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item {{tabStyleItems[tabIndex]}}" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" @tap="selectTab" style="width: {{tabItemWidth}}">
+        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item {{tabStyleItems[tabIndex]}}" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" data-tab-type="{{tabItem.typeData}}" @tap="selectTab" style="width: {{tabItemWidth}}">
           <text class="index-tabs-item-title">{{tabItem.typeTitle}}</text>
           <text wx:if="{{tabIndex < (indexTabList.length - 1)}}" class="m-icon m-icon-arrow-down"></text>
         </view>
@@ -58,6 +58,7 @@
   import wepy from 'wepy'
   import searchBar from '../components/searchBar'
   import imgWall from '../components/indexwall'
+  import {indexWallData} from '../mixins/data.js'
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: '搭呗'
@@ -66,25 +67,23 @@
       search: searchBar,
       imgwall: imgWall
     }
-
     data = {
       isShowWall: true,
       isShowBodyCount: false,
-      imgWallData: [],
       indexTabList: [{
         typeTitle: '场景',
-        typeData: []
+        typeData: 'scene'
       }, {
         typeTitle: '身材',
-        typeData: []
+        typeData: 'body'
       }, {
         typeTitle: '风格',
-        typeData: []
+        typeData: 'style'
       }, {
         typeTitle: 'For Me',
         typeData: []
       }],
-      imgWallData: [],
+      imgWallData: indexWallData['scene'],
       bodyCountStep0Sshow: true,
       bodyCountStep1Sshow: false,
       bodyCountStep2Sshow: false,
@@ -94,8 +93,8 @@
       colorTypeIcons: [[{icon: 'item-nocheck', textcolor: 'nocheck-color'}, {icon: 'item-nocheck', textcolor: 'nocheck-color'}], [{icon: 'item-nocheck', textcolor: 'nocheck-color'}, {icon: 'item-nocheck', textcolor: 'nocheck-color'}]],
       bodyTypeData: [[{imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_3i8ge54bjaijl416ccb5jb1783eac_120x120.png', typeValue: 'type1'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_29dk3kj9ke3eeh20geh809eg5j4kd_120x120.png', typeValue: 'type2'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_73akb81i1l804aiage4e17ffe1gi5_120x120.png', typeValue: 'type3'}], [{imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_8016k0kd8e76dih8h05h6k571c0h2_120x120.png', typeValue: 'type4'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_3a7c88g24hbhlh4cbek902a81edfb_120x120.png', typeValue: 'type5'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_0jfi75jf75dfj09j367c1hgh1kd2a_120x120.png', typeValue: 'type6'}], [{imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_37a67485eed9d4fi4ic049f5bekil_120x120.png', typeValue: 'type7'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_4b2fdhhg90gb8f28cade1dkj6hf83_120x120.png', typeValue: 'type8'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_203495f84cfc9e50eb9223f59dkjj_120x120.png', typeValue: 'type9'}]],
       colorTypeData: [[{imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_1b472cje39bficjc20aa06a403g36_125x127.png', typeValue: 'type1', text: '晶莹白皙'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_47l6hc3598ed1hekd63kcb0411ja1_128x127.png', typeValue: 'type2', text: '自然红润'}], [{imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_07hf51daaf499k3062ab6bk60l4hb_125x123.png', typeValue: 'type3', text: '自然偏黄'}, {imgUrl: 'https://s10.mogucdn.com/mlcdn/c45406/170818_8g5l7kl4089d42i3b5e19ek9660g8_128x123.png', typeValue: 'type4', text: '活力小麦'}]],
-      featureTypeData: ['脖子粗', '小平胸', 'PP大', '小短腿', '脸大', '胳膊粗' , '小肚腩', '小粗腿'],
-      featureTypeIcons: ['item-nocheck','item-nocheck', 'item-nocheck', 'item-nocheck', 'item-nocheck', 'item-nocheck', 'item-nocheck', 'item-nocheck']
+      featureTypeData: ['脖子粗', '小平胸', 'PP大', '小短腿', '脸大', '胳膊粗', '小肚腩', '小粗腿'],
+      featureTypeIcons: ['item-nocheck', 'item-nocheck', 'item-nocheck', 'item-nocheck', 'item-nocheck', 'item-nocheck', 'item-nocheck', 'item-nocheck']
     }
     computed = {
       tabItemWidth () {
@@ -106,9 +105,13 @@
     methods = {
       selectTab (event) {
         let currentTabIndex = event.currentTarget.dataset.tabIndex
+        let currentTabType = event.currentTarget.dataset.tabType
         this.tabStyleItems = this.tabStyleItems.map((item, index) => {
           return currentTabIndex === index ? 'index-tabs-item-on' : ''
         })
+        if (indexWallData[currentTabType]) {
+          this.imgWallData = indexWallData[currentTabType]
+        }
         if ((currentTabIndex === this.indexTabList.length - 1) && !wepy.getStorageSync('bodyData')) {
           this.isShowWall = false
           this.isShowBodyCount = true
