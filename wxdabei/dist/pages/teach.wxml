@@ -1,31 +1,5 @@
 
   <view class="index-container">
-    
-  <view class="search-container">
-    <view class="search-text {{$search$inputHasFocus ? 'search-text-focus' : ''}}">
-      <text class="search-icon m-icon m-icon-search-mini"/>
-      <text class="search-placeholder">{{$search$searchPlaceholder}}</text>
-    </view>
-    <view class="search-input">
-      <input type="text" class="search-text-input {{$search$inputHasFocus ? 'search-text-input-focus' : ''}}" bindfocus="$search$searchFocus" bindblur="$search$searchBlur"/>
-      <text class="search-input-confirm"  wx:if="{{$search$inputHasFocus}}">搜索</text>
-    </view>
-    <view class="search-recommend">
-      <text  wx:if="{{$search$recommendlist}}" class="search-recommend-clear" bindtap="$search$clearRecommendData">清除</text>  
-      <block wx:if="{{$search$recommendlist}}"> 
-        <view class="search-recommend-item" wx:for="{{$search$recommendlist}}" wx:for-item="recommendItem">
-          <view class="search-recommend-item-title">{{recommendItem.title}}</view>
-          <view class="search-recommend-item-content">
-            <block wx:if="{{recommendItem.contentList}}">
-              <text wx:for="{{recommendItem.contentList}}" wx:for-item="contentItem" wx:for-index="contentIndex" class="search-recommend-content-item {{contentIndex < 2 ? 'search-recommend-content-item-focus' : ''}}">{{contentItem}}</text>  
-            </block>
-            <view wx:if="{{!recommendItem.contentList}}" class="search-norecommend-tip">暂无搜索历史</view>  
-          </view>  
-        </view>
-      </block>  
-    </view>
-  </view>
-
     <view class="index-tabs">
       <block  wx:if="{{indexTabList}}">
         <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" bindtab="selectTab" style="width: {{tabItemWidth}}">

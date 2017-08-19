@@ -1,6 +1,5 @@
 <template>
   <view class="index-container">
-    <search :recommend-list="searchRecommendData"></search>
     <view class="index-tabs">
       <block wx:if="{{indexTabList}}">
         <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" @tab="selectTab" style="width: {{tabItemWidth}}">
@@ -15,14 +14,12 @@
 
 <script>
   import wepy from 'wepy'
-  import searchBar from '../components/searchBar'
   import imgWall from '../components/indexwall'
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: '搭呗'
+      navigationBarTitleText: '教搭'
     }
     components = {
-      search: searchBar,
       imgwall: imgWall
     }
 
