@@ -1,82 +1,134 @@
+<!-- “我的”页面 -->
 <template>
   <view class="index-container">
-    <search :recommend-list="searchRecommendData"></search>
-    <view class="index-tabs">
-      <block wx:if="{{indexTabList}}">
-        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" @tab="selectTab" style="width: {{tabItemWidth}}">
-          <text class="index-tabs-item-title">{{tabItem.typeTitle}}</text>
-          <text wx:if="{{tabIndex < (indexTabList.length - 1)}}" class="m-icon m-icon-arrow-down"></text>
+    <!-- 用户信息部分 -->
+    <view class="personal_user">
+      <image class="personal_user-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+
+      <view class="personal_user-wrap">
+        <view class="personal_user-item">
+          <image class="personal_user-icon" src="https://s10.mogucdn.com/mlcdn/c45406/170819_2ff82ic4685hd87fg4f6jh1el392b_40x40.png" mode="aspectFill"></image>
+          <view class="personal_user-text">内容</view>
+          <view class="personal_user-badge">{{userInfo.contents}}</view>
         </view>
-      </block>
+        <view class="personal_user-item">
+          <image class="personal_user-icon" src="https://s10.mogucdn.com/mlcdn/c45406/170819_6704d8g4947l9818ia073i159i4d0_44x32.png" mode="aspectFill"></image>
+          <view class="personal_user-text">粉丝</view>
+          <view class="personal_user-badge">{{userInfo.fans}}</view>
+        </view>
+        <view class="personal_user-item">
+          <image class="personal_user-icon" src="https://s10.mogucdn.com/mlcdn/c45406/170819_1dilli312afdjfik2ka5e1b955gka_36x42.png" mode="aspectFill"></image>
+          <view class="personal_user-text">信息</view>
+          <view class="personal_user-badge">{{userInfo.infos}}</view>
+        </view>
+      </view>
     </view>
-    <imgwall :wall-image-lines="imgWallData"></imgwall>
-  </view>  
+    <!-- 菜单 -->
+    <view class="personal_nav">
+      <view class="personal_nav-item">
+          <view class="personal_nav-text">我的搭配</view>
+          <view class="m-icon m-icon-arrow-right personal_nav_nav-arrow"></view>
+      </view>
+      <view class="personal_nav-item">
+          <view class="personal_nav-text">我的搭配师</view>
+          <view class="m-icon m-icon-arrow-right personal_nav_nav-arrow"></view>
+      </view>
+      <view class="personal_nav-item">
+          <view class="personal_nav-text">我的搭配教程</view>
+          <view class="m-icon m-icon-arrow-right personal_nav_nav-arrow"></view>
+      </view>
+      <view class="personal_nav-item">
+          <view class="personal_nav-text">我的穿搭资料</view>
+          <view class="m-icon m-icon-arrow-right personal_nav_nav-arrow"></view>
+      </view>
+      <view class="personal_nav-item">
+          <view class="personal_nav-text">意见反馈</view>
+          <view class="m-icon m-icon-arrow-right personal_nav_nav-arrow"></view>
+      </view>
+    </view>  
+  </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  import searchBar from '../components/searchBar'
-  import imgWall from '../components/indexwall'
+  import {userInfo} from '../mixins/data.js'
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: '搭呗'
+      navigationBarTitleText: '我的'
     }
-    components = {
-      search: searchBar,
-      imgwall: imgWall
-    }
-
     data = {
-      imgWallData: [],
-      indexTabList: [{
-        typeTitle: '场景',
-        typeData: []
-      }, {
-        typeTitle: '身材',
-        typeData: []
-      }, {
-        typeTitle: '风格',
-        typeData: []
-      }, {
-        typeTitle: 'For Me',
-        typeData: []
-      }]
+      userInfo: userInfo
     }
-    computed = {
-      tabItemWidth () {
-        return 1 / (this.indexTabList.length) * 100 + '%'
-      }
-    }
-
     methods = {
-      selectTab (event) {
-        let currentTabIndex = event.currentTarget.dataset.tabIndex
-        console.log(currentTabIndex)
-      }
     }
   }
 </script>
 
 <style lang="less">
-.index-container{
-  width: 100%;
-  padding-left: 23rpx;
-  padding-right: 23rpx;
-}
-.index-tabs{
-  width: 100%;
-  height: 90rpx;
-}
-.index-tabs-item{
-  display: inline-block;
-  height: 100%;
-  vertical-align: top;
-  line-height: 1;
-  text-align: center;
-  font-size: 27rpx;
-  color: #333;
-}
-.index-tabs-item-title{
-  margin-right: 10rpx;
-} 
+  .index-container{
+    width: 100%;
+  } 
+  // 用户信息
+  .personal_user{
+    width: 100%;
+    height: 500rpx;
+    background: url(https://s3.mogucdn.com/mlcdn/c45406/170819_26cda5k2clg9ia12b38dd478l475h_750x500.jpg);
+  }
+  .personal_user-avatar{
+    width: 200rpx;
+    height: 200rpx;
+    margin: 60rpx 275rpx;
+    border-radius: 200rpx;
+  }
+  .personal_user-wrap{
+    display: flex;
+    flex-direction: rows;
+    width: 100%;
+  }
+  .personal_user-item{
+    width: 33%;
+    height: 135rpx;
+    text-align: center;
+    color: #fff;
+  }
+  .personal_user-icon{
+    width: 40rpx;
+    height: 40rpx;
+  }
+  .personal_user-text{
+    height: 30rpx;
+    margin:12rpx 0 16rpx 0;
+    line-height: 30rpx;
+    font-size: 24rpx;
+  }
+  .personal_user-badge{
+    height: 30rpx;
+    line-height: 30rpx;
+    font-size: 30rpx;
+  }
+  // 菜单
+  .personal_nav{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background:#fff;
+  }
+  .personal_nav-item{
+    width: 100%;
+    height: 103rpx;
+    line-height: 103rpx;
+    border-top: 1rpx solid #efefef;
+    font-size: 30rpx;
+    
+  }
+  .personal_nav-text{
+    float: left;
+    padding-left: 32rpx;
+    color: #333;
+  }
+  .personal_nav_nav-arrow{
+    float: right;
+    padding-right: 32rpx;
+    color: #999;
+  }
 </style>

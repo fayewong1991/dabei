@@ -1,52 +1,48 @@
 
   <view class="index-container">
-    
-  <view class="search-container">
-    <view class="search-text {{$search$inputHasFocus ? 'search-text-focus' : ''}}">
-      <text class="search-icon m-icon m-icon-search-mini"/>
-      <text class="search-placeholder">{{$search$searchPlaceholder}}</text>
-    </view>
-    <view class="search-input">
-      <input type="text" class="search-text-input {{$search$inputHasFocus ? 'search-text-input-focus' : ''}}" bindfocus="$search$searchFocus" bindblur="$search$searchBlur"/>
-      <text class="search-input-confirm"  wx:if="{{$search$inputHasFocus}}">搜索</text>
-    </view>
-    <view class="search-recommend">
-      <text  wx:if="{{$search$recommendlist}}" class="search-recommend-clear" bindtap="$search$clearRecommendData">清除</text>  
-      <block wx:if="{{$search$recommendlist}}"> 
-        <view class="search-recommend-item" wx:for="{{$search$recommendlist}}" wx:for-item="recommendItem">
-          <view class="search-recommend-item-title">{{recommendItem.title}}</view>
-          <view class="search-recommend-item-content">
-            <block wx:if="{{recommendItem.contentList}}">
-              <text wx:for="{{recommendItem.contentList}}" wx:for-item="contentItem" wx:for-index="contentIndex" class="search-recommend-content-item {{contentIndex < 2 ? 'search-recommend-content-item-focus' : ''}}">{{contentItem}}</text>  
-            </block>
-            <view wx:if="{{!recommendItem.contentList}}" class="search-norecommend-tip">暂无搜索历史</view>  
-          </view>  
-        </view>
-      </block>  
-    </view>
-  </view>
+    <!-- 用户信息部分 -->
+    <view class="personal_user">
+      <image class="personal_user-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"/>
 
-    <view class="index-tabs">
-      <block  wx:if="{{indexTabList}}">
-        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" bindtab="selectTab" style="width: {{tabItemWidth}}">
-          <text class="index-tabs-item-title">{{tabItem.typeTitle}}</text>
-          <text wx:if="{{tabIndex < (indexTabList.length - 1)}}" class="m-icon m-icon-arrow-down"/>
+      <view class="personal_user-wrap">
+        <view class="personal_user-item">
+          <image class="personal_user-icon" src="https://s10.mogucdn.com/mlcdn/c45406/170819_2ff82ic4685hd87fg4f6jh1el392b_40x40.png" mode="aspectFill"/>
+          <view class="personal_user-text">内容</view>
+          <view class="personal_user-badge">{{userInfo.contents}}</view>
         </view>
-      </block>
-    </view>
-    
-  <view class="index-wall">
-    <block  wx:if="{{$imgwall$wallimagelines}}">
-      <view class="index-wall-line" wx:for="{{$imgwall$wallimagelines}}" wx:for-item="lineItem">
-        <view wx:for="{{lineItem}}" wx:for-item="lineItemImg" wx:for-index="lineItemIndex" class="index-wall-line-imgItemView {{lineItemIndex === (lineItem.length - 1) ? 'index-wall-line-lastimg' : ''}}" style="width:{{$imgwall$imgunitwd}};height:{{$imgwall$imgunithg}};">
-          <image mode="aspectFill" class="index-wall-line-img" src="{{lineItemImg.imgUrl}}" bindtap="$imgwall$imgClick" data-imglink="{{lineItemImg.detailUrl || $imgwall$lineImg.imgUrl}}"/>
-          <view class="index-wall-line-imglike" wx:if="{{$imgwall$isneedshowlike}}">
-            <text class="m-icon m-icon-star index-wall-line-imglike-star" bindtap="$imgwall$addLike" data-belong-item="{{lineItemImg}}"/>
-            <text class="index-wall-line-imglike-number">{{lineItemImg.likeNumber}}</text>
-          </view>
+        <view class="personal_user-item">
+          <image class="personal_user-icon" src="https://s10.mogucdn.com/mlcdn/c45406/170819_6704d8g4947l9818ia073i159i4d0_44x32.png" mode="aspectFill"/>
+          <view class="personal_user-text">粉丝</view>
+          <view class="personal_user-badge">{{userInfo.fans}}</view>
+        </view>
+        <view class="personal_user-item">
+          <image class="personal_user-icon" src="https://s10.mogucdn.com/mlcdn/c45406/170819_1dilli312afdjfik2ka5e1b955gka_36x42.png" mode="aspectFill"/>
+          <view class="personal_user-text">信息</view>
+          <view class="personal_user-badge">{{userInfo.infos}}</view>
         </view>
       </view>
-    </block>
-  </view>
-
+    </view>
+    <!-- 菜单 -->
+    <view class="personal_nav">
+      <view class="personal_nav-item">
+          <view class="personal_nav-text">我的搭配</view>
+          <view class="m-icon m-icon-arrow-right personal_nav_nav-arrow"/>
+      </view>
+      <view class="personal_nav-item">
+          <view class="personal_nav-text">我的搭配师</view>
+          <view class="m-icon m-icon-arrow-right personal_nav_nav-arrow"/>
+      </view>
+      <view class="personal_nav-item">
+          <view class="personal_nav-text">我的搭配教程</view>
+          <view class="m-icon m-icon-arrow-right personal_nav_nav-arrow"/>
+      </view>
+      <view class="personal_nav-item">
+          <view class="personal_nav-text">我的穿搭资料</view>
+          <view class="m-icon m-icon-arrow-right personal_nav_nav-arrow"/>
+      </view>
+      <view class="personal_nav-item">
+          <view class="personal_nav-text">意见反馈</view>
+          <view class="m-icon m-icon-arrow-right personal_nav_nav-arrow"/>
+      </view>
+    </view>  
   </view>

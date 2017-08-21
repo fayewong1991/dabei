@@ -1,0 +1,35 @@
+
+  <view class="index-container">
+    <!-- 判断返回数据类型，并展示 -->
+    <block  wx:if="{{detailInfo}}">
+      <view class="td-item-wrap" wx:for="{{detailInfo}}" wx:key="*this">
+        <block wx:if="{{item.type == 'video'}}">
+          <video class="td-video" src=""/>
+        </block>
+        <block wx:elif="{{item.type == 'header'}}">
+          <view class="td-head">{{item.desc}}</view>
+        </block>
+        <block wx:elif="{{item.type == 'para'}}">
+          <view class="td-para">{{item.desc}}</view>
+        </block>
+        <block wx:elif="{{item.type == 'image'}}">
+          <image class="td-image" src="{{item.src}}"/>
+        </block>
+      </view>
+    </block>
+    
+  </view>
+  <!-- 底部bar -->
+  <view class="teach-bottom-wrap">
+    <view class="tdb-content">
+      <view class="tdb-item tdb-good">
+        <image src="http://s3.mogucdn.com/mlcdn/c45406/170821_12g7ce0be0g8a78806hih5lbc9dd7_32x29.png" style="width:32rpx;height:29rpx;"/>
+        点赞      
+      </view>
+      <view class="tdb-item tdb-collect">
+        <view class="m-icon m-icon-star"/>
+        收藏
+      </view>
+    </view>
+
+  </view>

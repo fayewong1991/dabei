@@ -1,26 +1,57 @@
 
   <view class="index-container">
-    <view class="index-tabs">
-      <block  wx:if="{{indexTabList}}">
-        <view wx:for="{{indexTabList}}" wx:for-item="tabItem" class="index-tabs-item" wx:for-index="tabIndex" data-tab-index="{{tabIndex}}" bindtab="selectTab" style="width: {{tabItemWidth}}">
-          <text class="index-tabs-item-title">{{tabItem.typeTitle}}</text>
-          <text wx:if="{{tabIndex < (indexTabList.length - 1)}}" class="m-icon m-icon-arrow-down"/>
-        </view>
+    <view class="teach-tabs" bindtap="switchTab">
+      <text class="teach-tab {{imageShow ? 'teach-tab-on' : ''}}" data-tab-type="image">图文</text>
+      <text class="teach-tab {{videoShow ? 'teach-tab-on' : ''}}" data-tab-type="video">视频</text>
+    </view>
+    <block  wx:if="{{imageShow && imageTextList}}">
+      <block wx:for="{{imageTextList}}" wx:for-index="index" wx:for-item="item" wx:key="*this">
+          
+  <view class="teach-item">
+    <view class="teach-item-wrap">
+      <view class="teach-item-head">{{item.head}}</view>
+      <view class="teach-item-content">{{item.content}}</view>
+      <view class="teach-item-line"/>
+      <view class="teach-item-collect">
+        <text class="teach-item-col">{{item.read}}阅读</text>·<text class="teach-item-col">{{item.collect}}收藏</text>  
+      </view>
+    </view>
+
+    <view class="teach-item-imgvideo">
+      <block  wx:if="{{teachType == 'image'}}">
+        <image class="teach-item-img" src="{{item.imgUrl}}"/>
+      </block>
+      <block  wx:else>
+        <video class="teach-item-video" src="{{item.imgUrl}}"/>
       </block>
     </view>
-    
-  <view class="index-wall">
-    <block  wx:if="{{$imgwall$wallimagelines}}">
-      <view class="index-wall-line" wx:for="{{$imgwall$wallimagelines}}" wx:for-item="lineItem">
-        <view wx:for="{{lineItem}}" wx:for-item="lineItemImg" wx:for-index="lineItemIndex" class="index-wall-line-imgItemView {{lineItemIndex === (lineItem.length - 1) ? 'index-wall-line-lastimg' : ''}}" style="width:{{$imgwall$imgunitwd}};height:{{$imgwall$imgunithg}};">
-          <image mode="aspectFill" class="index-wall-line-img" src="{{lineItemImg.imgUrl}}" bindtap="$imgwall$imgClick" data-imglink="{{lineItemImg.detailUrl || $imgwall$lineImg.imgUrl}}"/>
-          <view class="index-wall-line-imglike" wx:if="{{$imgwall$isneedshowlike}}">
-            <text class="m-icon m-icon-star index-wall-line-imglike-star" bindtap="$imgwall$addLike" data-belong-item="{{lineItemImg}}"/>
-            <text class="index-wall-line-imglike-number">{{lineItemImg.likeNumber}}</text>
-          </view>
-        </view>
-      </view>
-    </block>
   </view>
 
+      </block>
+    </block>
+    <block wx:if="{{videoShow && videoList}}">
+      <block wx:for="{{videoList}}" wx:for-index="index" wx:for-item="item" wx:key="*this">
+          
+  <view class="teach-item">
+    <view class="teach-item-wrap">
+      <view class="teach-item-head">{{item.head}}</view>
+      <view class="teach-item-content">{{item.content}}</view>
+      <view class="teach-item-line"/>
+      <view class="teach-item-collect">
+        <text class="teach-item-col">{{item.read}}阅读</text>·<text class="teach-item-col">{{item.collect}}收藏</text>  
+      </view>
+    </view>
+
+    <view class="teach-item-imgvideo">
+      <block  wx:if="{{teachType == 'image'}}">
+        <image class="teach-item-img" src="{{item.videoUrl}}"/>
+      </block>
+      <block  wx:else>
+        <video class="teach-item-video" src="{{item.videoUrl}}"/>
+      </block>
+    </view>
+  </view>
+
+      </block>
+    </block>
   </view>
